@@ -9,9 +9,9 @@ from math import radians, cos, sin
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
-    QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu
+    QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu, QSplitter
 )
-from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF, QTimer
+from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF, QTimer, QEvent
 from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter, QPixmap
 
 # Local modules
@@ -29,9 +29,11 @@ from utils.PanGraphicsView import PanZoomGraphicsView
 from utils.WarmNode import WarmNode
 from _extras.SensitivitySlider import SensitivitySlider
 
+
 def get_content_hash(text):
     """Generates a unique ID based on the text content to track layout positions."""
     return hashlib.md5(text.encode('utf-8')).hexdigest()
+
 
 class UploadWorker(QObject):
     """Background worker to handle API calls without freezing the UI."""
@@ -55,7 +57,7 @@ class UploadWorker(QObject):
 
             text = self.path.read_text(encoding='utf-8').strip()
             paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-            
+
             if not paragraphs:
                 self.error_occurred.emit("File is empty.")
                 return
@@ -66,41 +68,26 @@ class UploadWorker(QObject):
             todo_id = create_list(api_key, token, board_id, "To Review 🌅")
 
             for i, para in enumerate(paragraphs, 1):
-                # 1. Clean Markdown headers/formatting from the start
-                # This removes leading #, *, -, or > (for quotes)
                 clean_para = para.lstrip('#*-> ').strip()
-
-                # 2. Extract Name from First Sentence
-                # We look for . ! or ? to find the end of the first sentence
                 first_period = clean_para.find('.')
                 first_exclaim = clean_para.find('!')
                 first_question = clean_para.find('?')
-                
                 stops = [pos for pos in [first_period, first_exclaim, first_question] if pos != -1]
-                
+
                 if stops:
                     end_of_sentence = min(stops) + 1
                     card_name = clean_para[:end_of_sentence].strip()
                 else:
-                    # Fallback: take a chunk of the first line
                     card_name = clean_para.split('\n')[0][:60].strip()
-                
-                # 3. Final Polish
-                # Trello titles shouldn't be too long; 120 is a sweet spot for readability
+
                 if len(card_name) > 120:
                     card_name = card_name[:117] + "..."
-                
-                # If for some reason the name is empty, use a fallback
                 if not card_name:
                     card_name = f"Note {i}"
 
-                # 4. Use the original 'para' for the description to keep formatting
                 desc = (para[:4000] + "…") if len(para) > 4000 else para
-                
-                # Create the card
                 create_card(api_key, token, todo_id, card_name, desc)
-                
-                # 5. Signal the UI (Safely!)
+
                 self.progress_updated.emit(i)
                 self.status_updated.emit(f"Created: {card_name[:30]}...")
                 QThread.msleep(600)
@@ -108,6 +95,7 @@ class UploadWorker(QObject):
             self.finished.emit(len(paragraphs), board_url)
         except Exception as e:
             self.error_occurred.emit(str(e))
+
 
 class TrelloCushionsWindow(QMainWindow):
     def __init__(self):
@@ -122,6 +110,10 @@ class TrelloCushionsWindow(QMainWindow):
         self.sketch_title = None
         self.current_md_file = None
 
+        # ✨ NEW for fullscreen parking
+        self.main_splitter = None
+        self.saved_splitter_sizes = None
+
         self.setWindowTitle("Cushions - Warm Markdown Studio")
         self.resize(1280, 820)
         self.setMinimumSize(960, 620)
@@ -131,6 +123,8 @@ class TrelloCushionsWindow(QMainWindow):
         self._setup_ui()
         self._setup_tray()
         self._run_fade_in()
+
+        # ✨ Auto-load last canvas after UI is ready
         QTimer.singleShot(300, self._auto_load_last_canvas)
 
     def _init_window_icon(self):
@@ -145,7 +139,7 @@ class TrelloCushionsWindow(QMainWindow):
     def _setup_tray(self):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(self.app_icon)
-        self.tray_icon.setToolTip("Cushions - Trello Uploader")
+        self.tray_icon.setToolTip("Cushions - Warm Markdown Studio")
 
         tray_menu = QMenu()
         restore_action = QAction("Restore Window", self)
@@ -169,22 +163,6 @@ class TrelloCushionsWindow(QMainWindow):
         if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
             self.show_and_fade()
 
-    def _auto_load_last_canvas(self):
-        """Gently reopen the last workspace canvas on startup."""
-        last_file = Settings.get("last_opened_file", "")
-        if not last_file:
-            return
-
-        path = Path(last_file)
-        if path.exists() and path.suffix.lower() in (".md", ".txt"):
-            self.logger.info(f"🌱 Auto-opening your last cozy canvas: {path.name}")
-            # Switch to sketchbook mode automatically (feels most natural for "canvas")
-            self.action_combo.setCurrentText("Load into Warm Sketchbook Plant")
-            self.process_file(str(path))
-        else:
-            # Clean up stale path so we don’t try again
-            Settings.set("last_opened_file", "")
-
     def show_and_fade(self):
         self.showNormal()
         self.activateWindow()
@@ -207,9 +185,12 @@ class TrelloCushionsWindow(QMainWindow):
         central.setObjectName("centralWidget")
         self.setCentralWidget(central)
 
-        main_layout = QHBoxLayout(central)
-        main_layout.setContentsMargins(12, 12, 12, 12)
-        main_layout.setSpacing(12)
+        # ✨ Cozy QSplitter — lets the options panel park beautifully in fullscreen
+        self.main_splitter = QSplitter(Qt.Horizontal)
+        self.main_splitter.setHandleWidth(8)
+        self.main_splitter.setStretchFactor(0, 0)
+        self.main_splitter.setStretchFactor(1, 1)
+        self.main_splitter.setSizes([380, 920])
 
         # LEFT PANEL
         left_panel = QWidget()
@@ -246,7 +227,7 @@ class TrelloCushionsWindow(QMainWindow):
         combo_layout.addWidget(QLabel("Send to:"))
         self.action_combo = QComboBox()
         self.action_combo.addItems(["Upload to Trello 🌅", "Load into Warm Sketchbook 🌱"])
-        self.action_combo.setCurrentIndex(0)
+        self.action_combo.setCurrentIndex(1)  # default to Sketchbook — feels cozier!
         self.action_combo.setStyleSheet("""
             QComboBox { color: #e0e0e0; background: #3a3a3a; border: 1px solid #6b5a47; border-radius: 6px; padding: 6px; }
             QComboBox:hover { background: #444444; }
@@ -271,7 +252,6 @@ class TrelloCushionsWindow(QMainWindow):
         left_layout.addWidget(self.progress)
 
         left_layout.addStretch()
-        main_layout.addWidget(left_panel)
 
         # RIGHT PANEL
         right_panel = QWidget()
@@ -291,7 +271,19 @@ class TrelloCushionsWindow(QMainWindow):
         self.sketch_view = PanZoomGraphicsView(self.sketch_scene, self)
         self.sketch_view.setMinimumWidth(720)
         right_layout.addWidget(self.sketch_view)
-        main_layout.addWidget(right_panel)
+
+        # Add panels to splitter FIRST (fixes the "Index 0 out of range" warning)
+        self.main_splitter.addWidget(left_panel)
+        self.main_splitter.addWidget(right_panel)
+
+        # Now configure collapsible AFTER widgets are added
+        self.main_splitter.setCollapsible(0, True)
+
+        # Put splitter into central widget
+        central_layout = QHBoxLayout(central)
+        central_layout.setContentsMargins(12, 12, 12, 12)
+        central_layout.setSpacing(12)
+        central_layout.addWidget(self.main_splitter)
 
         self.sensitivity_slider = SensitivitySlider(self)
         self.sensitivity_slider.setParent(self.sketch_view)
@@ -315,7 +307,6 @@ class TrelloCushionsWindow(QMainWindow):
         pixmap.fill(Qt.transparent)
         painter = QPainter(pixmap)
         painter.setRenderHint(QPainter.Antialiasing)
-
         for _ in range(8000):
             x = random.uniform(0, tile_size)
             y = random.uniform(0, tile_size)
@@ -323,7 +314,6 @@ class TrelloCushionsWindow(QMainWindow):
             opacity = random.randint(4, 12)
             painter.setPen(QPen(QColor(255, 255, 255, opacity)))
             painter.drawEllipse(QPointF(x, y), radius, radius)
-
         for _ in range(100):
             x = random.uniform(0, tile_size)
             y = random.uniform(0, tile_size)
@@ -337,7 +327,6 @@ class TrelloCushionsWindow(QMainWindow):
             end_x = x + size * 0.4 * cos(radians(angle))
             end_y = y + size * 0.4 * sin(radians(angle))
             painter.drawLine(int(x), int(y), int(end_x), int(end_y))
-
         painter.end()
         brush = QBrush(pixmap)
         brush.setStyle(Qt.TexturePattern)
@@ -366,14 +355,13 @@ class TrelloCushionsWindow(QMainWindow):
         start_dir = Settings.get_directory("last_dir_upload") or str(Path.home())
         path, _ = QFileDialog.getOpenFileName(self, "Select File", start_dir, "*.txt *.md")
         if path:
-            # Pass the FULL file path so set_directory can correctly extract the folder
             Settings.set_directory("last_dir_upload", str(Path(path)))
             self.process_file(path)
 
     def process_file(self, path):
         if getattr(self, 'worker_thread', None) and self.worker_thread.isRunning():
             return
-        
+
         self.show_and_fade()
         self.status_label.setText("Processing file...")
 
@@ -382,6 +370,37 @@ class TrelloCushionsWindow(QMainWindow):
         else:
             self._load_to_sketchbook(path)
 
+    def _auto_load_last_canvas(self):
+        """🌱 Gently reopen the last workspace canvas on startup."""
+        last_file = Settings.get("last_opened_file", "")
+        if not last_file:
+            return
+
+        path = Path(last_file)
+        if path.exists() and path.suffix.lower() in (".md", ".txt"):
+            self.logger.info(f"🌱 Auto-opening your last cozy canvas: {path.name}")
+            self.action_combo.setCurrentText("Load into Warm Sketchbook 🌱")
+            self.process_file(str(path))
+        else:
+            Settings.set("last_opened_file", "")
+
+    def changeEvent(self, event):
+        """🌱 Proper fullscreen parking using Qt's changeEvent (more reliable than the old signal)"""
+        super().changeEvent(event)
+        if event.type() == QEvent.WindowStateChange:
+            if not self.main_splitter:
+                return
+            if self.windowState() & Qt.WindowFullScreen:
+                self.saved_splitter_sizes = self.main_splitter.sizes()
+                self.main_splitter.setSizes([68, 9999])
+                self.logger.info("🌱 Options panel parked cozy to the side — enjoy the full canvas!")
+            else:
+                if self.saved_splitter_sizes:
+                    self.main_splitter.setSizes(self.saved_splitter_sizes)
+                else:
+                    self.main_splitter.setSizes([380, 920])
+                self.logger.info("🌱 Options panel restored — welcome back!")
+
     def _upload_to_trello(self, path):
         self.status_label.setText("Starting upload to Trello...")
         self.progress.setVisible(True)
@@ -389,23 +408,19 @@ class TrelloCushionsWindow(QMainWindow):
         self.setEnabled(False)
         self.save_btn.setEnabled(False)
         self.sketch_title.setText("Warm Sketchbook 🌱")
-
         self.worker_thread = QThread()
         self.worker = UploadWorker(path)
         self.worker.moveToThread(self.worker_thread)
-
         self.worker.total_updated.connect(self.progress.setMaximum)
         self.worker.progress_updated.connect(self.progress.setValue)
         self.worker.status_updated.connect(self.status_label.setText)
         self.worker.finished.connect(self.on_success)
         self.worker.error_occurred.connect(self.on_error)
-
         self.worker.finished.connect(self.worker_thread.quit)
         self.worker.error_occurred.connect(self.worker_thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.worker_thread.finished.connect(self._cleanup_worker_thread)
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
-
         self.worker_thread.started.connect(self.worker.run)
         self.worker_thread.start()
 
@@ -417,8 +432,7 @@ class TrelloCushionsWindow(QMainWindow):
         try:
             file_path = Path(path)
             text = file_path.read_text(encoding='utf-8').strip()
-            
-            # Try to load existing layout from a hidden file
+
             layout_path = file_path.parent / f".{file_path.name}.layout.json"
             saved_layout = {}
             if layout_path.exists():
@@ -441,24 +455,20 @@ class TrelloCushionsWindow(QMainWindow):
                 QMessageBox.warning(self, "Empty", "No content found after filtering.")
                 return
 
-            # Clear scene of old nodes
             for item in list(self.sketch_scene.items()):
                 if isinstance(item, WarmNode):
                     self.sketch_scene.removeItem(item)
 
             for i, para in enumerate(paragraphs, 1):
                 node_hash = get_content_hash(para)
-                
                 if node_hash in saved_layout:
-                    # Use the saved coordinates
                     coords = saved_layout[node_hash]
                     pos = QPointF(coords[0], coords[1])
                 else:
-                    # Scattered Table logic for new or edited notes
                     angle = radians(random.uniform(0, 360))
                     distance = random.uniform(180, 850)
                     pos = QPointF(distance * cos(angle), distance * sin(angle))
-                
+
                 node = WarmNode(i, para, pos)
                 self.sketch_scene.addItem(node)
 
@@ -476,28 +486,17 @@ class TrelloCushionsWindow(QMainWindow):
     def _save_sketchbook_edits(self):
         if not self.current_md_file:
             return
-
         nodes = [item for item in self.sketch_scene.items() if isinstance(item, WarmNode)]
         nodes.sort(key=lambda n: n.node_id)
-
-        # 1. Update text content
         new_content = '\n\n'.join(node.full_text for node in nodes)
-
-        # 2. Build layout map { hash: [x, y] }
         layout_map = {
             get_content_hash(node.full_text): [node.pos().x(), node.pos().y()]
             for node in nodes
         }
-
         try:
-            # Save Markdown file
             file_path = Path(self.current_md_file)
             file_path.write_text(new_content, encoding='utf-8')
-            
-            # Use the Settings utility to save the layout 
-            # (Changed 'path' to 'self.current_md_file' here)
             Settings.save_layout(self.current_md_file, layout_map)
-
             self.status_label.setText("💾 Saved content and layout positions!")
             self.tray_icon.showMessage("Saved ✨", "Your changes and arrangement are safe.", self.app_icon, 3000)
         except Exception as e:
@@ -508,7 +507,6 @@ class TrelloCushionsWindow(QMainWindow):
         self.setEnabled(True)
         self.progress.setVisible(False)
         self.tray_icon.showMessage("Upload Success ✨", f"Created {count} cards on Trello!", self.app_icon, 3000)
-
         if QMessageBox.question(self, "Success", f"Created {count} cards!\n\nOpen the board in browser?",
                                 QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
             webbrowser.open(url)
