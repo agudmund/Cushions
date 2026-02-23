@@ -13,9 +13,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon, QPixmap
-
 from utils.settings import Settings
-
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
@@ -30,7 +28,7 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(14)
-        layout.setSizeConstraint(QLayout.SetFixedSize)  # lock layout
+        layout.setSizeConstraint(QLayout.SetFixedSize)
 
         # Project root for relative path resolution
         self.project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -40,7 +38,6 @@ class SettingsDialog(QDialog):
         app_title.setFont(QFont("Lato", 14, QFont.Bold))
         app_title.setAlignment(Qt.AlignCenter)
         layout.addWidget(app_title)
-
         layout.addSpacing(6)
 
         self.app_status = QLabel("No custom icon set")
@@ -53,12 +50,10 @@ class SettingsDialog(QDialog):
         app_preview_container.setFixedSize(32, 32)
         app_preview_layout = QVBoxLayout(app_preview_container)
         app_preview_layout.setContentsMargins(0, 0, 0, 0)
-
         self.app_preview = QLabel()
         self.app_preview.setFixedSize(32, 32)
         self.app_preview.setAlignment(Qt.AlignCenter)
         app_preview_layout.addWidget(self.app_preview)
-
         layout.addWidget(app_preview_container, alignment=Qt.AlignCenter)
 
         app_browse = QPushButton("Choose Icon")
@@ -101,7 +96,6 @@ class SettingsDialog(QDialog):
         bullet_title.setFont(QFont("Lato", 14, QFont.Bold))
         bullet_title.setAlignment(Qt.AlignCenter)
         layout.addWidget(bullet_title)
-
         layout.addSpacing(6)
 
         self.bullet_status = QLabel("Using default")
@@ -114,12 +108,10 @@ class SettingsDialog(QDialog):
         bullet_preview_container.setFixedSize(32, 32)
         bullet_preview_layout = QVBoxLayout(bullet_preview_container)
         bullet_preview_layout.setContentsMargins(0, 0, 0, 0)
-
         self.bullet_preview = QLabel()
         self.bullet_preview.setFixedSize(32, 32)
         self.bullet_preview.setAlignment(Qt.AlignCenter)
         bullet_preview_layout.addWidget(self.bullet_preview)
-
         layout.addWidget(bullet_preview_container, alignment=Qt.AlignCenter)
 
         bullet_browse = QPushButton("Choose Icon")
@@ -134,7 +126,10 @@ class SettingsDialog(QDialog):
         bullet_reset.clicked.connect(lambda: self.reset_icon("bullet_icon_path", self.bullet_status, self.bullet_preview))
         layout.addWidget(bullet_reset)
 
-        layout.addStretch()  # pushes content up
+        layout.addStretch()
+
+        # ✨ Load and display current icons (including beautiful defaults!)
+        self._refresh_statuses()
 
     def _get_absolute_path(self, rel_path: str) -> str:
         if not rel_path:
@@ -142,7 +137,7 @@ class SettingsDialog(QDialog):
         return os.path.normpath(os.path.join(self.project_root, rel_path))
 
     def _refresh_statuses(self):
-        # App icon
+        # App icon — custom or default preview
         rel_path = Settings.get("icon_path")
         if rel_path:
             abs_path = self._get_absolute_path(rel_path)
@@ -151,10 +146,15 @@ class SettingsDialog(QDialog):
                 pix = QPixmap(abs_path).scaled(28, 28, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.app_preview.setPixmap(pix)
                 return
-        self.app_status.setText("No custom icon")
-        self.app_preview.clear()
+        self.app_status.setText("Using default (icon.png)")
+        default_path = self._get_absolute_path("icon.png")
+        if os.path.exists(default_path):
+            pix = QPixmap(default_path).scaled(28, 28, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.app_preview.setPixmap(pix)
+        else:
+            self.app_preview.clear()
 
-        # Bullet icon
+        # Bullet icon — now exactly the same cozy treatment!
         rel_path = Settings.get("bullet_icon_path")
         if rel_path:
             abs_path = self._get_absolute_path(rel_path)
@@ -163,8 +163,13 @@ class SettingsDialog(QDialog):
                 pix = QPixmap(abs_path).scaled(28, 28, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.bullet_preview.setPixmap(pix)
                 return
-        self.bullet_status.setText("Using default")
-        self.bullet_preview.clear()
+        self.bullet_status.setText("Using default (bullet.png)")
+        default_path = self._get_absolute_path("bullet.png")
+        if os.path.exists(default_path):
+            pix = QPixmap(default_path).scaled(28, 28, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.bullet_preview.setPixmap(pix)
+        else:
+            self.bullet_preview.clear()
 
     def choose_app_icon(self):
         start_dir = Settings.get_directory("last_dir_icon")
@@ -173,7 +178,6 @@ class SettingsDialog(QDialog):
         )
         if not path or not os.path.exists(path):
             return
-
         try:
             rel_path = os.path.relpath(path, self.project_root).replace("\\", "/")
             self.parent().setWindowIcon(QIcon(path))
@@ -192,12 +196,10 @@ class SettingsDialog(QDialog):
         )
         if not path or not os.path.exists(path):
             return
-
         try:
             pix = QPixmap(path)
             if pix.isNull():
                 raise ValueError("Invalid image")
-
             rel_path = os.path.relpath(path, self.project_root).replace("\\", "/")
             Settings.set("bullet_icon_path", rel_path)
             last_dir_rel = os.path.relpath(os.path.dirname(path), self.project_root).replace("\\", "/")
@@ -209,8 +211,8 @@ class SettingsDialog(QDialog):
 
     def reset_icon(self, key: str, status_label: QLabel, preview: QLabel):
         Settings.set(key, None)
-        if key == "icon_path":
-            status_label.setText("No custom icon")
-        else:
-            status_label.setText("Using default")
-        preview.clear()
+        if key == "icon_path" and self.parent():
+            # Restore main window to proper default
+            if hasattr(self.parent(), '_init_window_icon'):
+                self.parent()._init_window_icon()
+        self._refresh_statuses()  # instant beautiful refresh for both icons

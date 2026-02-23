@@ -9,7 +9,7 @@ from math import radians, cos, sin
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
-    QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu, QSplitter
+    QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu, QSplitter, QGraphicsTextItem
 )
 from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF, QTimer, QEvent
 from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter, QPixmap
@@ -110,6 +110,9 @@ class TrelloCushionsWindow(QMainWindow):
         self.sketch_title = None
         self.current_md_file = None
 
+        # ✨ Gentle good-job heart sprinkles — subtle encouragement
+        self.heart_timer = None
+
         # ✨ NEW for fullscreen parking
         self.main_splitter = None
         self.saved_splitter_sizes = None
@@ -175,6 +178,69 @@ class TrelloCushionsWindow(QMainWindow):
             event.ignore()
         else:
             event.accept()
+
+    def _start_heart_sprinkles(self):
+        """🌱 Start the cozy random 'good job' heart timer (3-6 minutes)"""
+        if self.heart_timer is not None:
+            self.heart_timer.stop()
+        self._schedule_next_heart()
+
+    def _schedule_next_heart(self):
+        """Schedule next gentle heart in random 3-6 minutes."""
+        delay_ms = random.randint(180_000, 360_000)  # 3-6 min
+        QTimer.singleShot(delay_ms, self._spawn_random_heart)
+
+    def _spawn_random_heart(self):
+        """🌸 Spawn one tiny soft 💕 above a random node"""
+        nodes = [item for item in self.sketch_scene.items() if isinstance(item, WarmNode)]
+        if not nodes:
+            self._schedule_next_heart()
+            return
+
+        node = random.choice(nodes)
+        node_rect = node.boundingRect()
+        start_pos = node.pos() + QPointF(node_rect.width() / 2 - 12, -45)
+
+        heart = QGraphicsTextItem("💕")
+        heart.setDefaultTextColor(QColor(255, 182, 193, 200))  # soft warm pink, gentle opacity
+        heart.setFont(QFont("Segoe UI Emoji", 22))
+        heart.setOpacity(0.0)
+        heart.setPos(start_pos)
+        self.sketch_scene.addItem(heart)
+
+        # Gentle animation group: fade in → float up → fade out
+        group = QSequentialAnimationGroup()
+
+        fade_in = QPropertyAnimation(heart, b"opacity")
+        fade_in.setDuration(900)
+        fade_in.setStartValue(0.0)
+        fade_in.setEndValue(0.85)
+        fade_in.setEasingCurve(QEasingCurve.InOutQuad)
+
+        move = QPropertyAnimation(heart, b"pos")
+        move.setDuration(3200)
+        move.setStartValue(start_pos)
+        move.setEndValue(start_pos + QPointF(random.uniform(-15, 15), -110))  # slight natural drift
+        move.setEasingCurve(QEasingCurve.OutCubic)
+
+        fade_out = QPropertyAnimation(heart, b"opacity")
+        fade_out.setDuration(1100)
+        fade_out.setStartValue(0.85)
+        fade_out.setEndValue(0.0)
+        fade_out.setEasingCurve(QEasingCurve.InQuad)
+
+        group.addAnimation(fade_in)
+        group.addAnimation(move)
+        group.addAnimation(fade_out)
+
+        def remove_heart():
+            if heart.scene():
+                self.sketch_scene.removeItem(heart)
+        group.finished.connect(remove_heart)
+        group.start()
+
+        # Schedule the next one
+        self._schedule_next_heart()
 
     def _setup_ui(self):
         qss_path = Path(__file__).parent / "styles.qss"
@@ -479,6 +545,7 @@ class TrelloCushionsWindow(QMainWindow):
             self.status_label.setText(f"🌱 Loaded {len(paragraphs)} notes.")
             self.tray_icon.showMessage("Sketchbook Ready ✨", f"Arranged {len(paragraphs)} cozy cards", self.app_icon, 3000)
             Settings.set("last_opened_file", str(file_path))
+            self._start_heart_sprinkles()
         except Exception as e:
             self.logger.error(str(e))
             QMessageBox.critical(self, "Load Failed", str(e))
