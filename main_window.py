@@ -1,36 +1,19 @@
-# main_window.py
 import sys
-import os
-import time
 import webbrowser
-from datetime import datetime
-import requests
+from pathlib import Path
 
 from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QFileDialog,
-    QProgressBar,
-    QMessageBox,
-    QGraphicsDropShadowEffect,
-    QToolButton,
-    QStyle,
+    QMainWindow, QApplication, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
+    QGraphicsDropShadowEffect, QToolButton, QStyle,
+    QSystemTrayIcon, QMenu 
 )
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QFont, QColor, QIcon
+from PySide6.QtCore import Qt, QSize, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve
+from PySide6.QtGui import QFont, QColor, QIcon, QAction
 
+# Local modules
 from utils.logging import AppLogger
-from utils.trello_api import (
-    get_credentials,
-    create_board,
-    create_list,
-    create_card,
-)
+from utils.trello_api import get_credentials, create_board, create_list, create_card
 from utils.settings import Settings
 from widgets.drop_area import CozyDropArea
 from dialogs.settings_dialog import SettingsDialog
@@ -38,115 +21,170 @@ from widgets.feature_list_dialog import FeatureListDialog
 from widgets.log_viewer_dialog import LogViewerDialog
 from widgets.about_dialog import AboutDialog
 
+class UploadWorker(QObject):
+    """Background worker to handle API calls without freezing the UI."""
+    progress_updated = Signal(int)
+    status_updated = Signal(str)
+    finished = Signal(int, str)
+    error_occurred = Signal(str)
+
+    def __init__(self, path):
+        super().__init__()
+        self.path = Path(path)
+
+    @Slot()
+    def run(self):
+        try:
+            api_key, token = get_credentials()
+            if not api_key or not token:
+                self.error_occurred.emit("Trello API keys missing.")
+                return
+
+            text = self.path.read_text(encoding='utf-8').strip()
+            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+            
+            if not paragraphs:
+                self.error_occurred.emit("File is empty.")
+                return
+
+            board_id, board_url = create_board(api_key, token)
+            todo_id = create_list(api_key, token, board_id, "To Review 🌅")
+
+            for i, para in enumerate(paragraphs, 1):
+                desc = (para[:4000] + "…") if len(para) > 4000 else para
+                create_card(api_key, token, todo_id, f"Note {i}", desc)
+                
+                self.progress_updated.emit(i)
+                self.status_updated.emit(f"Uploading {i}/{len(paragraphs)}...")
+                QThread.msleep(600) 
+
+            self.finished.emit(len(paragraphs), board_url)
+        except Exception as e:
+            self.error_occurred.emit(str(e))
 
 class TrelloCushionsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.logger = AppLogger.get()
+        self.worker_thread = None
 
         self.setWindowTitle("Cushions")
         self.setFixedSize(500, 400)
-        self.setStyleSheet("background-color: #1e1e1e; color: #e0e0e0;")
+        self.setWindowOpacity(0.0)
 
-        # Load saved custom icon at startup (relative path)
-        rel_icon_path = Settings.get("icon_path")
-        if rel_icon_path:
-            # Resolve relative to project root (where main.py lives)
-            project_root = os.path.abspath(os.path.dirname(__file__))
-            abs_icon_path = os.path.normpath(os.path.join(project_root, rel_icon_path))
-            if os.path.exists(abs_icon_path):
-                self.setWindowIcon(QIcon(abs_icon_path))
+        self._init_window_icon()
+        self._setup_ui()
+        self._setup_tray() # Initialize Tray
+        self._run_fade_in()
+
+    def _init_window_icon(self):
+        rel_path = Settings.get("icon_path")
+        self.icon_path = Path(__file__).parent / (rel_path if rel_path else "icon.png")
+        if self.icon_path.exists():
+            self.app_icon = QIcon(str(self.icon_path))
+            self.setWindowIcon(self.app_icon)
+        else:
+            self.app_icon = self.style().standardIcon(QStyle.SP_ComputerIcon)
+
+    def _setup_tray(self):
+        """Sets up the system tray icon and its menu."""
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(self.app_icon)
+        self.tray_icon.setToolTip("Cushions - Trello Uploader")
+
+        # Create Tray Menu
+        tray_menu = QMenu()
+        restore_action = QAction("Restore", self)
+        quit_action = QAction("Quit Cushions", self)
+
+        restore_action.triggered.connect(self.show_and_fade)
+        quit_action.triggered.connect(QApplication.instance().quit)
+
+        tray_menu.addAction(restore_action)
+        tray_menu.addSeparator()
+        tray_menu.addAction(quit_action)
+
+        self.tray_icon.setContextMenu(tray_menu)
+        
+        # Restore on double-click
+        self.tray_icon.activated.connect(self._on_tray_activated)
+        
+        self.tray_icon.show()
+
+    def _on_tray_activated(self, reason):
+        if reason == QSystemTrayIcon.Trigger: # Single or double click
+            self.show_and_fade()
+
+    def show_and_fade(self):
+        """Helper to show the window with the fade animation."""
+        self.showNormal()
+        self.activateWindow()
+        self._run_fade_in()
+
+    def closeEvent(self, event):
+        """Override close to minimize to tray instead of exiting."""
+        if self.tray_icon.isVisible():
+            self.hide()
+            self.tray_icon.showMessage(
+                "Cushions",
+                "App is still running in the background.",
+                self.app_icon,
+                2000
+            )
+            event.ignore() # Prevent window from closing
+        else:
+            event.accept()
+
+    def _setup_ui(self):
+        # (Same as previous UI setup)
+        qss_path = Path(__file__).parent / "styles.qss"
+        if qss_path.exists():
+            self.setStyleSheet(qss_path.read_text())
 
         central = QWidget()
+        central.setObjectName("centralWidget")
         self.setCentralWidget(central)
+        
         layout = QVBoxLayout(central)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(15)
 
+        # Header bar
         top_bar = QWidget()
         top_layout = QHBoxLayout(top_bar)
         top_layout.setContentsMargins(0, 0, 0, 0)
         top_layout.addStretch()
 
-        log_btn = QToolButton(self)
-        log_btn.setText("📜")
-        log_btn.setFont(QFont("Segoe UI Emoji", 18))
-        log_btn.setStyleSheet("""
-            QToolButton { background: transparent; color: #8a7a67; border: none; }
-            QToolButton:hover { color: #fff; }
-        """)
-        log_btn.setFixedSize(40, 40)
-        log_btn.clicked.connect(self.show_log)
-        top_layout.addWidget(log_btn)
-
-        features_btn = QToolButton(self)
-        features_btn.setText("📋")
-        features_btn.setFont(QFont("Segoe UI Emoji", 18))
-        features_btn.setStyleSheet("""
-            QToolButton { background: transparent; color: #8a7a67; border: none; }
-            QToolButton:hover { color: #fff; }
-        """)
-        features_btn.setFixedSize(40, 40)
-        features_btn.clicked.connect(self.show_feature_list)
-        top_layout.addWidget(features_btn)
-
-        settings_btn = QToolButton(self)
-        settings_btn.setText("⚙")
-        settings_btn.setFont(QFont("Segoe UI Emoji", 18))
-        settings_btn.setStyleSheet("""
-            QToolButton { background: transparent; color: #8a7a67; border: none; }
-            QToolButton:hover { color: #fff; }
-        """)
-        settings_btn.setFixedSize(40, 40)
-        settings_btn.clicked.connect(self.open_settings)
-        top_layout.addWidget(settings_btn)
-
-        # About button
-        about_btn = QToolButton(self)
+        self._add_tool_btn("📜", self.show_log, top_layout)
+        self._add_tool_btn("📋", self.show_feature_list, top_layout)
+        self._add_tool_btn("⚙", self.open_settings, top_layout)
+        
+        # We replace the old close with a "Hide to Tray" feel
+        about_btn = self._add_tool_btn(None, self.show_about, top_layout)
         about_btn.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
-        about_btn.setIconSize(QSize(24, 24))
-        about_btn.setStyleSheet("""
-            QToolButton { background: transparent; border: none; }
-            QToolButton:hover { background: rgba(255,255,255,20); border-radius: 4px; }
-        """)
-        about_btn.setFixedSize(40, 40)
-        about_btn.setToolTip("About this one-braincell felony")
-        about_btn.clicked.connect(self.show_about)
-        top_layout.addWidget(about_btn)
 
         layout.addWidget(top_bar)
 
+        # Title & Drop Area
         title = QLabel("Upload to Cushions")
-        title.setFont(QFont("Lato", 18, QFont.Bold))
+        title.setObjectName("titleLabel")
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
 
         self.drop_area = CozyDropArea()
         layout.addWidget(self.drop_area)
 
-        browse_btn = QPushButton("Browse File")
-        browse_btn.setFixedHeight(40)
-        browse_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #3a3a3a;
-                border: 1px solid #6b5a47;
-                border-radius: 8px;
-                color: #e0e0e0;
-                font-size: 14px;
-            }
-            QPushButton:hover { background-color: #444; }
-        """)
-        browse_btn.clicked.connect(self.browse_file)
-        layout.addWidget(browse_btn)
+        self.browse_btn = QPushButton("Browse File")
+        self.browse_btn.setFixedHeight(40)
+        self.browse_btn.clicked.connect(self.browse_file)
+        layout.addWidget(self.browse_btn)
 
         self.status_label = QLabel("Drag or browse a .md/.txt file to start")
+        self.status_label.setObjectName("statusLabel")
         self.status_label.setAlignment(Qt.AlignCenter)
-        self.status_label.setStyleSheet("color: #8a7a67; font-size: 13px;")
         layout.addWidget(self.status_label)
 
         self.progress = QProgressBar()
-        self.progress.setRange(0, 100)
-        self.progress.setValue(0)
         self.progress.setVisible(False)
         layout.addWidget(self.progress)
 
@@ -156,87 +194,72 @@ class TrelloCushionsWindow(QMainWindow):
         shadow.setColor(QColor(0, 0, 0, 80))
         central.setGraphicsEffect(shadow)
 
-    def open_settings(self):
-        dialog = SettingsDialog(self)
-        dialog.exec()
+    def _add_tool_btn(self, text, callback, layout):
+        btn = QToolButton()
+        if text:
+            btn.setText(text)
+            btn.setFont(QFont("Segoe UI Emoji", 18))
+        btn.setFixedSize(40, 40)
+        btn.clicked.connect(callback)
+        layout.addWidget(btn)
+        return btn
 
-    def show_feature_list(self):
-        dialog = FeatureListDialog(self)
-        dialog.exec()
+    def _run_fade_in(self):
+        self.anim = QPropertyAnimation(self, b"windowOpacity")
+        self.anim.setDuration(600)
+        self.anim.setStartValue(0.0)
+        self.anim.setEndValue(1.0)
+        self.anim.setEasingCurve(QEasingCurve.InOutQuad)
+        self.anim.start()
 
-    def show_log(self):
-        dialog = LogViewerDialog(self)
-        dialog.exec()
-
-    def show_about(self):
-        dialog = AboutDialog(self)
-        dialog.exec()
+    # --- Actions ---
+    def open_settings(self): SettingsDialog(self).exec()
+    def show_feature_list(self): FeatureListDialog(self).exec()
+    def show_log(self): LogViewerDialog(self).exec()
+    def show_about(self): AboutDialog(self).exec()
 
     def browse_file(self):
         start_dir = Settings.get_directory("last_dir_upload")
-        path, _ = QFileDialog.getOpenFileName(
-            self, "Select .md/.txt File", start_dir, "Text/Markdown Files (*.txt *.md)"
-        )
+        path, _ = QFileDialog.getOpenFileName(self, "Select File", start_dir, "*.txt *.md")
         if path:
-            Settings.set_directory("last_dir_upload", os.path.dirname(path))
+            Settings.set_directory("last_dir_upload", str(Path(path).parent))
             self.process_file(path)
 
     def process_file(self, path):
-        self.logger.info(f"Starting upload of {path}")
-
-        self.status_label.setText(f"Processing {os.path.basename(path)}...")
+        if self.worker_thread and self.worker_thread.isRunning():
+            return
+        
+        self.show_and_fade() # Ensure window is visible if they dropped a file onto the icon
+        self.status_label.setText("Starting upload...")
         self.progress.setVisible(True)
-        self.progress.setValue(0)
+        self.setEnabled(False)
 
-        try:
-            with open(path, 'r', encoding='utf-8') as f:
-                text = f.read().strip()
-            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-            total = len(paragraphs)
+        self.worker_thread = QThread()
+        self.worker = UploadWorker(path)
+        self.worker.moveToThread(self.worker_thread)
 
-            if total == 0:
-                self.logger.info(f"No paragraphs found in {path}")
-                self.status_label.setText("File is empty or has no paragraphs.")
-                self.progress.setVisible(False)
-                return
+        self.worker_thread.started.connect(self.worker.run)
+        self.worker.progress_updated.connect(self.progress.setValue)
+        self.worker.status_updated.connect(self.status_label.setText)
+        self.worker.finished.connect(self.on_success)
+        self.worker.error_occurred.connect(self.on_error)
+        
+        self.worker.finished.connect(self.worker_thread.quit)
+        self.worker.error_occurred.connect(self.worker_thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.worker_thread.finished.connect(self.worker_thread.deleteLater)
 
-            self.logger.info(f"Found {total} paragraphs")
-            self.progress.setRange(0, total)
+        self.worker_thread.start()
 
-            api_key, token = get_credentials()
-            if not api_key or not token:
-                self.logger.warning("Keys not found - TRELLO_KEY and/or TRELLO_TOKEN missing")
-                self.status_label.setText("Keys not found. Set TRELLO_KEY and TRELLO_TOKEN.")
-                self.progress.setVisible(False)
-                return
+    def on_success(self, count, url):
+        self.setEnabled(True)
+        self.progress.setVisible(False)
+        self.tray_icon.showMessage("Upload Success", f"Created {count} cards on Trello.", self.app_icon, 3000)
+        if QMessageBox.question(self, "Success", f"Created {count} cards. Open board?", 
+                                QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
+            webbrowser.open(url)
 
-            board_id, board_url = create_board(api_key, token)
-            todo_id = create_list(api_key, token, board_id, "To Review 🌅")
-
-            cards_added = 0
-            for i, para in enumerate(paragraphs, 1):
-                card_name = f"Note {i}"
-                desc = para[:4000] + "…" if len(para) > 4000 else para
-                if create_card(api_key, token, todo_id, card_name, desc):
-                    cards_added += 1
-                self.progress.setValue(i)
-                QApplication.processEvents()
-                time.sleep(0.6)
-
-            self.progress.setVisible(False)
-            summary = f"Done! {cards_added} cards added."
-            self.status_label.setText(summary)
-            self.logger.info(summary)
-
-            reply = QMessageBox.question(
-                self, "Success", f"Board created with {cards_added} cards.\nOpen now?",
-                QMessageBox.Yes | QMessageBox.No
-            )
-            if reply == QMessageBox.Yes:
-                webbrowser.open(board_url)
-
-        except Exception:
-            self.logger.exception("Upload processing failed")
-            self.status_label.setText("Error during processing — check log")
-            self.progress.setVisible(False)
-            QMessageBox.critical(self, "Error", "Something went wrong during upload.\nCheck the log for details.")
+    def on_error(self, msg):
+        self.setEnabled(True)
+        self.progress.setVisible(False)
+        QMessageBox.critical(self, "Error", msg)

@@ -1,0 +1,71 @@
+/* Main Window */
+QMainWindow {
+    background-color: #1e1e1e;
+}
+
+/* Central Widget */
+QWidget#centralWidget {
+    background-color: #1e1e1e;
+}
+
+/* Typography */
+QLabel {
+    color: #e0e0e0;
+}
+
+QLabel#titleLabel {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Lato", sans-serif;
+}
+
+QLabel#statusLabel {
+    color: #8a7a67;
+    font-size: 13px;
+}
+
+/* Primary Buttons */
+QPushButton {
+    background-color: #3a3a3a;
+    border: 1px solid #6b5a47;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 14px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: #444444;
+}
+
+QPushButton:pressed {
+    background-color: #2a2a2a;
+}
+
+/* Tool Buttons (The Emojis) */
+QToolButton {
+    background: transparent;
+    color: #8a7a67;
+    border: none;
+    border-radius: 4px;
+}
+
+QToolButton:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Progress Bar */
+QProgressBar {
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #121212;
+    color: transparent; /* Hide the percentage text for a cleaner look */
+    height: 10px;
+}
+
+QProgressBar::chunk {
+    background-color: #6b5a47;
+    border-radius: 3px;
+}
