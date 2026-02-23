@@ -1,0 +1,13 @@
+/logs
+_extras
+__init__.py
+__pycache__/
+.vs/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.json
+Cushions/bin/
+Cushions/obj/
+Cushions/Platforms/
