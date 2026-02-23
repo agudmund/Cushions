@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
     QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
     QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu
 )
-from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF
+from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF, QTimer
 from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter, QPixmap
 
 # Local modules
@@ -131,6 +131,7 @@ class TrelloCushionsWindow(QMainWindow):
         self._setup_ui()
         self._setup_tray()
         self._run_fade_in()
+        QTimer.singleShot(300, self._auto_load_last_canvas)
 
     def _init_window_icon(self):
         rel_path = Settings.get("icon_path")
@@ -167,6 +168,22 @@ class TrelloCushionsWindow(QMainWindow):
     def _on_tray_activated(self, reason):
         if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
             self.show_and_fade()
+
+    def _auto_load_last_canvas(self):
+        """Gently reopen the last workspace canvas on startup."""
+        last_file = Settings.get("last_opened_file", "")
+        if not last_file:
+            return
+
+        path = Path(last_file)
+        if path.exists() and path.suffix.lower() in (".md", ".txt"):
+            self.logger.info(f"🌱 Auto-opening your last cozy canvas: {path.name}")
+            # Switch to sketchbook mode automatically (feels most natural for "canvas")
+            self.action_combo.setCurrentText("Load into Warm Sketchbook Plant")
+            self.process_file(str(path))
+        else:
+            # Clean up stale path so we don’t try again
+            Settings.set("last_opened_file", "")
 
     def show_and_fade(self):
         self.showNormal()
@@ -349,7 +366,8 @@ class TrelloCushionsWindow(QMainWindow):
         start_dir = Settings.get_directory("last_dir_upload") or str(Path.home())
         path, _ = QFileDialog.getOpenFileName(self, "Select File", start_dir, "*.txt *.md")
         if path:
-            Settings.set_directory("last_dir_upload", str(Path(path).parent))
+            # Pass the FULL file path so set_directory can correctly extract the folder
+            Settings.set_directory("last_dir_upload", str(Path(path)))
             self.process_file(path)
 
     def process_file(self, path):
@@ -450,6 +468,7 @@ class TrelloCushionsWindow(QMainWindow):
             self.sketch_title.setText(f"Warm Sketchbook — {file_path.name}")
             self.status_label.setText(f"🌱 Loaded {len(paragraphs)} notes.")
             self.tray_icon.showMessage("Sketchbook Ready ✨", f"Arranged {len(paragraphs)} cozy cards", self.app_icon, 3000)
+            Settings.set("last_opened_file", str(file_path))
         except Exception as e:
             self.logger.error(str(e))
             QMessageBox.critical(self, "Load Failed", str(e))
