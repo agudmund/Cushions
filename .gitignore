@@ -1,5 +1,4 @@
 /logs
-_extras
 __init__.py
 __pycache__/
 .vs/
@@ -11,3 +10,9 @@ __pycache__/
 Cushions/bin/
 Cushions/obj/
 Cushions/Platforms/
+
+Skynet Prevention Protocols 104.md
+Some Notes.md
+The Chat.md
+Simple markdown for Upload testing.md
+chat reset point on feb 7th 2026.md

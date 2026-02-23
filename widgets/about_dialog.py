@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("About Trello Cushions")
+        self.setWindowTitle("Cushions In Context")
         self.setFixedSize(380, 260)
         self.setStyleSheet("background-color: #1e1e1e; color: #e0e0e0;")
 
@@ -15,24 +15,23 @@ class AboutDialog(QDialog):
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(12)
 
-        title = QLabel("Trello Cushions 🌱")
+        title = QLabel("Cushions")
         title.setFont(QFont("Lato", 18, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
 
-        version = QLabel("v0.1 – the fluff era")
+        version = QLabel("0.1.0 – The Fluff Era")
         version.setAlignment(Qt.AlignCenter)
         version.setStyleSheet("color: #8a7a67; font-size: 14px;")
         layout.addWidget(version)
 
-        braincell = QLabel("Made with one shared braincell")
+        braincell = QLabel("Built using a single shared braincell")
         braincell.setAlignment(Qt.AlignCenter)
         braincell.setStyleSheet("font-size: 16px; font-weight: bold; color: #fff;")
         layout.addWidget(braincell)
 
         credits = QLabel(
-            "Concept & chaos: Yours Truly + Grok\n"
-            "Code crimes committed: 2026\n"
+            "by Yours Truly and Grok (February 2026)\n"
             "Cushions harmed: 0 (but many were aggressively fluffed)"
         )
         credits.setAlignment(Qt.AlignCenter)
