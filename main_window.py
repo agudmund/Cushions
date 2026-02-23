@@ -1,14 +1,13 @@
 import sys
 import webbrowser
 from pathlib import Path
-
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
     QGraphicsDropShadowEffect, QToolButton, QStyle,
-    QSystemTrayIcon, QMenu 
+    QSystemTrayIcon, QMenu
 )
-from PySide6.QtCore import Qt, QSize, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve
+from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QFont, QColor, QIcon, QAction
 
 # Local modules
@@ -21,9 +20,11 @@ from widgets.feature_list_dialog import FeatureListDialog
 from widgets.log_viewer_dialog import LogViewerDialog
 from widgets.about_dialog import AboutDialog
 
+
 class UploadWorker(QObject):
     """Background worker to handle API calls without freezing the UI."""
     progress_updated = Signal(int)
+    total_updated = Signal(int)        # New: tells UI how many cards to expect
     status_updated = Signal(str)
     finished = Signal(int, str)
     error_occurred = Signal(str)
@@ -42,10 +43,12 @@ class UploadWorker(QObject):
 
             text = self.path.read_text(encoding='utf-8').strip()
             paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-            
+           
             if not paragraphs:
                 self.error_occurred.emit("File is empty.")
                 return
+
+            self.total_updated.emit(len(paragraphs))  # Tell UI total count for progress bar
 
             board_id, board_url = create_board(api_key, token)
             todo_id = create_list(api_key, token, board_id, "To Review 🌅")
@@ -53,14 +56,15 @@ class UploadWorker(QObject):
             for i, para in enumerate(paragraphs, 1):
                 desc = (para[:4000] + "…") if len(para) > 4000 else para
                 create_card(api_key, token, todo_id, f"Note {i}", desc)
-                
+               
                 self.progress_updated.emit(i)
                 self.status_updated.emit(f"Uploading {i}/{len(paragraphs)}...")
-                QThread.msleep(600) 
+                QThread.msleep(600)  # gentle UX delay so user sees cards appearing nicely
 
             self.finished.emit(len(paragraphs), board_url)
         except Exception as e:
             self.error_occurred.emit(str(e))
+
 
 class TrelloCushionsWindow(QMainWindow):
     def __init__(self):
@@ -74,7 +78,7 @@ class TrelloCushionsWindow(QMainWindow):
 
         self._init_window_icon()
         self._setup_ui()
-        self._setup_tray() # Initialize Tray
+        self._setup_tray()
         self._run_fade_in()
 
     def _init_window_icon(self):
@@ -92,27 +96,29 @@ class TrelloCushionsWindow(QMainWindow):
         self.tray_icon.setIcon(self.app_icon)
         self.tray_icon.setToolTip("Cushions - Trello Uploader")
 
-        # Create Tray Menu
         tray_menu = QMenu()
-        restore_action = QAction("Restore", self)
+        restore_action = QAction("Restore Window", self)
         quit_action = QAction("Quit Cushions", self)
 
         restore_action.triggered.connect(self.show_and_fade)
-        quit_action.triggered.connect(QApplication.instance().quit)
+        quit_action.triggered.connect(self.quit_app)   # clean exit path
 
         tray_menu.addAction(restore_action)
         tray_menu.addSeparator()
         tray_menu.addAction(quit_action)
 
         self.tray_icon.setContextMenu(tray_menu)
-        
-        # Restore on double-click
         self.tray_icon.activated.connect(self._on_tray_activated)
-        
         self.tray_icon.show()
 
+    def quit_app(self):
+        """Clean quit from tray icon (no more console-kill needed)."""
+        self.logger.info("Quitting Cushions from tray")
+        self.tray_icon.hide()
+        QApplication.instance().quit()
+
     def _on_tray_activated(self, reason):
-        if reason == QSystemTrayIcon.Trigger: # Single or double click
+        if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
             self.show_and_fade()
 
     def show_and_fade(self):
@@ -122,21 +128,20 @@ class TrelloCushionsWindow(QMainWindow):
         self._run_fade_in()
 
     def closeEvent(self, event):
-        """Override close to minimize to tray instead of exiting."""
+        """Hide to tray instead of exiting (standard cozy behavior)."""
         if self.tray_icon.isVisible():
             self.hide()
             self.tray_icon.showMessage(
                 "Cushions",
-                "App is still running in the background.",
+                "Still running in the background 🌱 Right-click tray to quit.",
                 self.app_icon,
-                2000
+                2500
             )
-            event.ignore() # Prevent window from closing
+            event.ignore()
         else:
             event.accept()
 
     def _setup_ui(self):
-        # (Same as previous UI setup)
         qss_path = Path(__file__).parent / "styles.qss"
         if qss_path.exists():
             self.setStyleSheet(qss_path.read_text())
@@ -144,7 +149,7 @@ class TrelloCushionsWindow(QMainWindow):
         central = QWidget()
         central.setObjectName("centralWidget")
         self.setCentralWidget(central)
-        
+       
         layout = QVBoxLayout(central)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(15)
@@ -159,7 +164,6 @@ class TrelloCushionsWindow(QMainWindow):
         self._add_tool_btn("📋", self.show_feature_list, top_layout)
         self._add_tool_btn("⚙", self.open_settings, top_layout)
         
-        # We replace the old close with a "Hide to Tray" feel
         about_btn = self._add_tool_btn(None, self.show_about, top_layout)
         about_btn.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
 
@@ -188,6 +192,7 @@ class TrelloCushionsWindow(QMainWindow):
         self.progress.setVisible(False)
         layout.addWidget(self.progress)
 
+        # Soft shadow for that cozy floating feel
         shadow = QGraphicsDropShadowEffect()
         shadow.setBlurRadius(15)
         shadow.setOffset(0, 4)
@@ -228,38 +233,44 @@ class TrelloCushionsWindow(QMainWindow):
     def process_file(self, path):
         if self.worker_thread and self.worker_thread.isRunning():
             return
-        
-        self.show_and_fade() # Ensure window is visible if they dropped a file onto the icon
+       
+        self.show_and_fade()
         self.status_label.setText("Starting upload...")
         self.progress.setVisible(True)
+        self.progress.setValue(0)
         self.setEnabled(False)
 
         self.worker_thread = QThread()
         self.worker = UploadWorker(path)
         self.worker.moveToThread(self.worker_thread)
 
-        self.worker_thread.started.connect(self.worker.run)
+        # Connect signals
+        self.worker.total_updated.connect(self.progress.setMaximum)
         self.worker.progress_updated.connect(self.progress.setValue)
         self.worker.status_updated.connect(self.status_label.setText)
         self.worker.finished.connect(self.on_success)
         self.worker.error_occurred.connect(self.on_error)
-        
+
+        # Cleanup
         self.worker.finished.connect(self.worker_thread.quit)
         self.worker.error_occurred.connect(self.worker_thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
 
+        self.worker_thread.started.connect(self.worker.run)
         self.worker_thread.start()
 
     def on_success(self, count, url):
         self.setEnabled(True)
         self.progress.setVisible(False)
-        self.tray_icon.showMessage("Upload Success", f"Created {count} cards on Trello.", self.app_icon, 3000)
-        if QMessageBox.question(self, "Success", f"Created {count} cards. Open board?", 
+        self.tray_icon.showMessage("Upload Success ✨", f"Created {count} cards on Trello!", self.app_icon, 3000)
+
+        if QMessageBox.question(self, "Success", f"Created {count} cards!\n\nOpen the board in browser?",
                                 QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
             webbrowser.open(url)
 
     def on_error(self, msg):
         self.setEnabled(True)
         self.progress.setVisible(False)
-        QMessageBox.critical(self, "Error", msg)
+        self.logger.error(f"Upload failed: {msg}")
+        QMessageBox.critical(self, "Upload Failed", msg)
