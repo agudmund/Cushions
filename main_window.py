@@ -44,7 +44,7 @@ class TrelloCushionsWindow(QMainWindow):
         super().__init__()
         self.logger = AppLogger.get()
 
-        self.setWindowTitle("Trello Cushions 🌱")
+        self.setWindowTitle("Cushions")
         self.setFixedSize(500, 400)
         self.setStyleSheet("background-color: #1e1e1e; color: #e0e0e0;")
 
@@ -116,7 +116,7 @@ class TrelloCushionsWindow(QMainWindow):
 
         layout.addWidget(top_bar)
 
-        title = QLabel("Upload to Trello Cushions")
+        title = QLabel("Upload to Cushions")
         title.setFont(QFont("Lato", 18, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)

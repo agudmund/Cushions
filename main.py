@@ -17,7 +17,7 @@ from PySide6.QtWidgets import QApplication
 from main_window import TrelloCushionsWindow
 from utils.logging import setup_logging
 
-APP_NAME = "Trello Cushions"
+APP_NAME = "Cushions"
 DEBUG_MODE = os.getenv("COZY_DEBUG", "0") == "1"
 
 def main() -> None:
