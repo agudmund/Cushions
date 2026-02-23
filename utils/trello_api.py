@@ -1,33 +1,21 @@
 # utils/trello_api.py
-import os
-import time
 import requests
-from typing import Optional, Tuple
-
+from typing import Tuple
 from utils.logging import AppLogger
-
 
 logger = AppLogger.get()
 
+def verify_credentials(api_key: str, token: str) -> bool:
+    """Check if the provided API key and token are valid with Trello."""
+    url = "https://api.trello.com/1/members/me"
+    params = {'key': api_key, 'token': token}
+    try:
+        response = requests.get(url, params=params, timeout=5)
+        return response.status_code == 200
+    except requests.RequestException:
+        return False
 
-def get_credentials() -> Tuple[Optional[str], Optional[str]]:
-    """Retrieve Trello API key and token from environment variables."""
-    api_key = os.environ.get("TRELLO_KEY")
-    token = os.environ.get("TRELLO_TOKEN")
-    api_key = api_key.strip() if api_key else None
-    token = token.strip() if token else None
-
-    if not api_key or not token:
-        logger.warning("TRELLO_KEY and/or TRELLO_TOKEN environment variables are missing or empty")
-
-    return api_key, token
-
-
-def create_board(
-    api_key: str,
-    token: str,
-    board_name: str = "Proofreading Kanban 🌱"
-) -> Tuple[str, str]:
+def create_board(api_key: str, token: str, board_name: str = "Proofreading Kanban 🌱") -> Tuple[str, str]:
     """Create a new Trello board and return its ID and short URL."""
     url = "https://api.trello.com/1/boards/"
     data = {
@@ -37,25 +25,17 @@ def create_board(
         'defaultLists': 'false',
         'prefs_background': 'blue'
     }
-
     try:
         response = requests.post(url, data=data, timeout=15)
         response.raise_for_status()
         board = response.json()
         logger.info(f"Created board: {board['shortUrl']}")
         return board['id'], board['shortUrl']
-
     except requests.RequestException as e:
         logger.exception(f"Failed to create Trello board '{board_name}'")
         raise
 
-
-def create_list(
-    api_key: str,
-    token: str,
-    board_id: str,
-    list_name: str = "To Review 🌅"
-) -> str:
+def create_list(api_key: str, token: str, board_id: str, list_name: str = "To Review 🌅") -> str:
     """Create a new list on the specified board and return its ID."""
     url = "https://api.trello.com/1/lists"
     params = {
@@ -65,28 +45,16 @@ def create_list(
         'idBoard': board_id,
         'pos': 'bottom'
     }
-
     try:
         response = requests.post(url, params=params, timeout=10)
         response.raise_for_status()
-        list_id = response.json()['id']
-        logger.info(f"Created list '{list_name}' on board {board_id}")
-        return list_id
-
+        return response.json()['id']
     except requests.RequestException as e:
-        logger.exception(f"Failed to create list '{list_name}' on board {board_id}")
+        logger.exception(f"Failed to create list '{list_name}'")
         raise
 
-
-def create_card(
-    api_key: str,
-    token: str,
-    list_id: str,
-    card_name: str,
-    desc: str,
-    pos: str = 'bottom'
-) -> bool:
-    """Create a single card in the specified list. Returns True on success."""
+def create_card(api_key: str, token: str, list_id: str, card_name: str, desc: str) -> bool:
+    """Create a single card. Returns True on success."""
     url = "https://api.trello.com/1/cards"
     params = {
         'key': api_key,
@@ -94,19 +62,11 @@ def create_card(
         'idList': list_id,
         'name': card_name,
         'desc': desc,
-        'pos': pos
+        'pos': 'bottom'
     }
-
     try:
         response = requests.post(url, params=params, timeout=10)
         response.raise_for_status()
-        logger.info(f"Added card: {card_name}")
         return True
-
-    except requests.HTTPError as e:
-        logger.warning(f"Failed to create card '{card_name}': {response.status_code} - {response.text}")
-        return False
-
-    except requests.RequestException as e:
-        logger.exception(f"Network or unexpected error while creating card '{card_name}'")
+    except requests.RequestException:
         return False

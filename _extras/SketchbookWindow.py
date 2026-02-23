@@ -1,27 +1,43 @@
+import sys
+import random
+from math import radians, cos, sin
+
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QGraphicsScene
+)
+from PySide6.QtCore import Qt, QPointF
+from PySide6.QtGui import QBrush, QColor, QPixmap, QPainter, QPen
+
+# Local imports (adjust if your folder structure changes slightly)
+from PanGraphicsView import PanZoomGraphicsView   # your existing panning/zooming view
+from WarmNode import WarmNode             # coming soon!
+from SensitivitySlider import SensitivitySlider
+
+
 class SketchbookWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Word Sketchbook 🌱📝")
         self.resize(1400, 900)
 
-        self.scene = QGraphicsScene()
+        self.scene = QGraphicsScene(self)
         self.scene.setBackgroundBrush(QBrush(QColor("#282828")))
-
         self.add_background_texture()
 
         self.view = PanZoomGraphicsView(self.scene, self)
         self.setCentralWidget(self.view)
 
-        self.sensitivity_slider = SensitivitySlider(self.view, self)
-        self.sensitivity_slider.move(self.width() - 180, self.height() - 40)
+        self.sensitivity_slider = SensitivitySlider(self)
         self.sensitivity_slider.show()
-
-        def on_resize(e):
-            self.sensitivity_slider.move(self.width() - 180, self.height() - 40)
-        self.resizeEvent = on_resize
 
         self.scene.setSceneRect(-2000, -2000, 4000, 4000)
 
+        self._create_sample_nodes()
+        self.view.centerOn(0, 0)
+        self._update_slider_position()
+
+    def _create_sample_nodes(self):
+        """Place 15 warm, poetic sample nodes in a gentle organic circle."""
         sample_texts = [
             "The morning light spilled through the cracked window like spilled honey.",
             "She whispered secrets to the plants, convinced they were listening.",
@@ -36,25 +52,20 @@ class SketchbookWindow(QMainWindow):
             "The tea grew cold, but the conversation stayed warm.",
             "Every crease in the paper told a story she hadn't yet written."
         ]
-
         for i in range(15):
             angle = radians(random.uniform(0, 360))
             distance = random.uniform(150, 800)
             x = distance * cos(angle)
             y = distance * sin(angle)
-
             text = random.choice(sample_texts)
             node = WarmNode(i + 1, text, QPointF(x, y))
             self.scene.addItem(node)
 
-        self.view.centerOn(0, 0)
-
     def add_background_texture(self):
-        """Procedural faint paper grain + scattered tiny leaves/dots"""
+        """Procedural faint paper grain + scattered tiny leaves/dots — pure cozy magic."""
         tile_size = 512
         pixmap = QPixmap(tile_size, tile_size)
         pixmap.fill(Qt.transparent)
-
         painter = QPainter(pixmap)
         painter.setRenderHint(QPainter.Antialiasing)
 
@@ -79,17 +90,25 @@ class SketchbookWindow(QMainWindow):
             painter.setBrush(QBrush(QColor(90, 160, 110, opacity)))
             painter.drawEllipse(QPointF(x, y), size * 0.6, size)
 
-            # Stem
+            # Tiny stem
             painter.setPen(QPen(QColor(70, 120, 90, opacity), 1.5))
             end_x = x + size * 0.4 * cos(radians(angle))
             end_y = y + size * 0.4 * sin(radians(angle))
             painter.drawLine(int(x), int(y), int(end_x), int(end_y))
 
         painter.end()
-
         brush = QBrush(pixmap)
         brush.setStyle(Qt.TexturePattern)
         self.scene.setBackgroundBrush(brush)
+
+    def resizeEvent(self, event):
+        """Keep the sensitivity slider gracefully in the bottom-right corner."""
+        super().resizeEvent(event)
+        self._update_slider_position()
+
+    def _update_slider_position(self):
+        if hasattr(self, 'sensitivity_slider'):
+            self.sensitivity_slider.move(self.width() - 180, self.height() - 60)
 
 
 if __name__ == "__main__":
