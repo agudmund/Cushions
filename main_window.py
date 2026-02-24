@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Cushions - main_window.py
+# The cozy hybrid Python + .NET MAUI creation that magically turns late-night markdown rambles into beautiful stuff
+# Built using a single shared braincell by Yours Truly and Grok
+
 import sys
 import webbrowser
 import json
@@ -11,7 +18,11 @@ from PySide6.QtWidgets import (
     QLabel, QPushButton, QFileDialog, QProgressBar, QMessageBox,
     QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu, QSplitter, QGraphicsTextItem
 )
-from PySide6.QtCore import Qt, QThread, QObject, Signal, Slot, QPropertyAnimation, QEasingCurve, QPointF, QTimer, QEvent
+from PySide6.QtCore import (
+    Qt, QThread, QObject, Signal, Slot, 
+    QPropertyAnimation, QEasingCurve, QSequentialAnimationGroup,
+    QPointF, QTimer, QEvent
+)
 from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter, QPixmap
 
 # Local modules
@@ -26,9 +37,9 @@ from widgets.about_dialog import AboutDialog
 
 # Sketchbook components
 from utils.PanGraphicsView import PanZoomGraphicsView
-from utils.WarmNode import WarmNode
 from _extras.SensitivitySlider import SensitivitySlider
 
+from cozy.warm import WarmNode
 
 def get_content_hash(text):
     """Generates a unique ID based on the text content to track layout positions."""
@@ -97,7 +108,7 @@ class UploadWorker(QObject):
             self.error_occurred.emit(str(e))
 
 
-class TrelloCushionsWindow(QMainWindow):
+class CushionsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.logger = AppLogger.get()
@@ -400,7 +411,7 @@ class TrelloCushionsWindow(QMainWindow):
 
     def _populate_sample_nodes(self):
         welcome_text = "Welcome to your Warm Sketchbook 🌱📝"
-        node = WarmNode(1, welcome_text, QPointF(0, 0))
+        node = WarmNode(1, title="", full_text=welcome_text, pos=QPointF(0, 0))
         self.sketch_scene.addItem(node)
         self.sketch_view.centerOn(0, 0)
 
@@ -535,7 +546,7 @@ class TrelloCushionsWindow(QMainWindow):
                     distance = random.uniform(180, 850)
                     pos = QPointF(distance * cos(angle), distance * sin(angle))
 
-                node = WarmNode(i, para, pos)
+                node = WarmNode(i, title="", full_text=para, pos=pos)
                 self.sketch_scene.addItem(node)
 
             self.sketch_view.centerOn(0, 0)
@@ -583,11 +594,3 @@ class TrelloCushionsWindow(QMainWindow):
         self.progress.setVisible(False)
         self.logger.error(f"Upload failed: {msg}")
         QMessageBox.critical(self, "Upload Failed", msg)
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
-    window = TrelloCushionsWindow()
-    window.show()
-    sys.exit(app.exec())
