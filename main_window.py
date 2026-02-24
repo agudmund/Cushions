@@ -594,3 +594,4 @@ class CushionsWindow(QMainWindow):
         self.progress.setVisible(False)
         self.logger.error(f"Upload failed: {msg}")
         QMessageBox.critical(self, "Upload Failed", msg)
+        
