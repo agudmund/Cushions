@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Cushions - utils/helpers.py
+# Shared gentle helper functions used across the app 🌱
+# Built using a single shared braincell by Yours Truly and Grok
+
+import hashlib
+
+def get_content_hash(text: str) -> str:
+    """Generates a unique, stable ID based on content — perfect for tracking nodes and layout positions 🌱"""
+    return hashlib.md5(text.encode('utf-8')).hexdigest()

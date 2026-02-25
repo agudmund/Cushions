@@ -8,7 +8,6 @@
 import sys
 import webbrowser
 import json
-import hashlib
 import random
 from pathlib import Path
 from math import radians, cos, sin
@@ -27,8 +26,8 @@ from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter,
 
 # Local modules
 from utils.logging import AppLogger
-from utils.trello_api import create_board, create_list, create_card
 from utils.settings import Settings
+from utils.trello_api import TrelloAPI
 from widgets.drop_area import CozyDropArea
 from dialogs.settings_dialog import SettingsDialog
 from widgets.feature_list_dialog import FeatureListDialog
@@ -40,73 +39,9 @@ from utils.PanGraphicsView import PanZoomGraphicsView
 from _extras.SensitivitySlider import SensitivitySlider
 
 from cozy.warm import WarmNode
+from cozy.worker import UploadWorker
 
-def get_content_hash(text):
-    """Generates a unique ID based on the text content to track layout positions."""
-    return hashlib.md5(text.encode('utf-8')).hexdigest()
-
-
-class UploadWorker(QObject):
-    """Background worker to handle API calls without freezing the UI."""
-    progress_updated = Signal(int)
-    total_updated = Signal(int)
-    status_updated = Signal(str)
-    finished = Signal(int, str)
-    error_occurred = Signal(str)
-
-    def __init__(self, path):
-        super().__init__()
-        self.path = Path(path)
-
-    @Slot()
-    def run(self):
-        try:
-            api_key, token = Settings.get_trello_creds()
-            if not api_key or not token:
-                self.error_occurred.emit("Trello API keys missing.")
-                return
-
-            text = self.path.read_text(encoding='utf-8').strip()
-            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-
-            if not paragraphs:
-                self.error_occurred.emit("File is empty.")
-                return
-
-            self.total_updated.emit(len(paragraphs))
-
-            board_id, board_url = create_board(api_key, token)
-            todo_id = create_list(api_key, token, board_id, "To Review 🌅")
-
-            for i, para in enumerate(paragraphs, 1):
-                clean_para = para.lstrip('#*-> ').strip()
-                first_period = clean_para.find('.')
-                first_exclaim = clean_para.find('!')
-                first_question = clean_para.find('?')
-                stops = [pos for pos in [first_period, first_exclaim, first_question] if pos != -1]
-
-                if stops:
-                    end_of_sentence = min(stops) + 1
-                    card_name = clean_para[:end_of_sentence].strip()
-                else:
-                    card_name = clean_para.split('\n')[0][:60].strip()
-
-                if len(card_name) > 120:
-                    card_name = card_name[:117] + "..."
-                if not card_name:
-                    card_name = f"Note {i}"
-
-                desc = (para[:4000] + "…") if len(para) > 4000 else para
-                create_card(api_key, token, todo_id, card_name, desc)
-
-                self.progress_updated.emit(i)
-                self.status_updated.emit(f"Created: {card_name[:30]}...")
-                QThread.msleep(600)
-
-            self.finished.emit(len(paragraphs), board_url)
-        except Exception as e:
-            self.error_occurred.emit(str(e))
-
+from utils.helpers import get_content_hash
 
 class CushionsWindow(QMainWindow):
     def __init__(self):
@@ -486,7 +421,8 @@ class CushionsWindow(QMainWindow):
         self.save_btn.setEnabled(False)
         self.sketch_title.setText("Warm Sketchbook 🌱")
         self.worker_thread = QThread()
-        self.worker = UploadWorker(path)
+        self.worker = TrelloAPI.create_upload_worker(path)   # ✨ so clean!
+
         self.worker.moveToThread(self.worker_thread)
         self.worker.total_updated.connect(self.progress.setMaximum)
         self.worker.progress_updated.connect(self.progress.setValue)
@@ -498,7 +434,7 @@ class CushionsWindow(QMainWindow):
         self.worker.finished.connect(self.worker.deleteLater)
         self.worker_thread.finished.connect(self._cleanup_worker_thread)
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
-        self.worker_thread.started.connect(self.worker.run)
+        self.worker_thread.started.connect(self.worker.run)   # direct & simple
         self.worker_thread.start()
 
     def _cleanup_worker_thread(self):
