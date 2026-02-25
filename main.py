@@ -14,7 +14,7 @@ from utils.logging import setup_logging
 
 APP_NAME = "Cushions"
 APP_VERSION = "0.1.1"
-DEBUG_MODE = os.getenv("COZY_DEBUG", "1") == "1"
+DEBUG_MODE = os.getenv("COZY_DEBUG", "0") == "1"
 
 def main() -> None:
     logger = setup_logging(debug=DEBUG_MODE)
