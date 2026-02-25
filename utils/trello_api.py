@@ -36,7 +36,7 @@ class TrelloAPI:
                 "Please double-check your key and token in Settings ✨"
             )
 
-        self.logger.info("TrelloAPI initialized with valid credentials 🌱")
+        self.logger.info("TrelloAPI initialized with valid credentials 🌱") 
 
     @classmethod
     def from_settings(cls) -> "TrelloAPI":

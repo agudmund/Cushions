@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QGraphicsScene, QComboBox, QToolButton, QStyle, QSystemTrayIcon, QMenu, QSplitter, QGraphicsTextItem
 )
 from PySide6.QtCore import (
-    Qt, QThread, QObject, Signal, Slot, 
+    Qt, QThread, QObject, Signal, Slot,
     QPropertyAnimation, QEasingCurve, QSequentialAnimationGroup,
     QPointF, QTimer, QEvent
 )
@@ -28,6 +28,7 @@ from PySide6.QtGui import QFont, QColor, QIcon, QAction, QPen, QBrush, QPainter,
 from utils.logging import AppLogger
 from utils.settings import Settings
 from utils.trello_api import TrelloAPI
+from utils.helpers import Helpers
 from widgets.drop_area import CozyDropArea
 from dialogs.settings_dialog import SettingsDialog
 from widgets.feature_list_dialog import FeatureListDialog
@@ -37,11 +38,8 @@ from widgets.about_dialog import AboutDialog
 # Sketchbook components
 from utils.PanGraphicsView import PanZoomGraphicsView
 from _extras.SensitivitySlider import SensitivitySlider
-
 from cozy.warm import WarmNode
 from cozy.worker import UploadWorker
-
-from utils.helpers import get_content_hash
 
 class CushionsWindow(QMainWindow):
     def __init__(self):
@@ -55,10 +53,8 @@ class CushionsWindow(QMainWindow):
         self.save_btn = None
         self.sketch_title = None
         self.current_md_file = None
-
         # ✨ Gentle good-job heart sprinkles — subtle encouragement
         self.heart_timer = None
-
         # ✨ NEW for fullscreen parking
         self.main_splitter = None
         self.saved_splitter_sizes = None
@@ -67,21 +63,37 @@ class CushionsWindow(QMainWindow):
         self.resize(1280, 820)
         self.setMinimumSize(960, 620)
         self.setWindowOpacity(0.0)
-
         self._init_window_icon()
         self._setup_ui()
         self._setup_tray()
         self._run_fade_in()
-
         # ✨ Auto-load last canvas after UI is ready
         QTimer.singleShot(300, self._auto_load_last_canvas)
 
     def _init_window_icon(self):
-        rel_path = Settings.get("icon_path")
-        self.icon_path = Path(__file__).parent / (rel_path if rel_path else "icon.png")
+        stored = Settings.get("icon_path")
+        project_root = Helpers.get_project_root()  # ← cozy central root!
+
+        if stored:
+            p = Path(stored)
+            candidate = p if p.is_absolute() else (project_root / p).resolve()
+            # print(f"Checking custom icon: {candidate}")  # uncomment for debug
+            if candidate.exists():
+                # print("Custom icon found ✓")
+                self.icon_path = candidate
+            else:
+                # print("Custom icon not found → fallback")
+                self.icon_path = project_root / "icon.png"
+        else:
+            self.icon_path = project_root / "icon.png"
+
+        # print(f"Final icon_path: {self.icon_path}")  # uncomment for debug
+
         if self.icon_path.exists():
             self.app_icon = QIcon(str(self.icon_path))
             self.setWindowIcon(self.app_icon)
+            if hasattr(self, 'tray_icon'):
+                self.tray_icon.setIcon(self.app_icon)
         else:
             self.app_icon = self.style().standardIcon(QStyle.SP_ComputerIcon)
 
@@ -89,7 +101,6 @@ class CushionsWindow(QMainWindow):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(self.app_icon)
         self.tray_icon.setToolTip("Cushions - Warm Markdown Studio")
-
         tray_menu = QMenu()
         restore_action = QAction("Restore Window", self)
         quit_action = QAction("Quit Cushions", self)
@@ -98,7 +109,6 @@ class CushionsWindow(QMainWindow):
         tray_menu.addAction(restore_action)
         tray_menu.addSeparator()
         tray_menu.addAction(quit_action)
-
         self.tray_icon.setContextMenu(tray_menu)
         self.tray_icon.activated.connect(self._on_tray_activated)
         self.tray_icon.show()
@@ -142,49 +152,40 @@ class CushionsWindow(QMainWindow):
         if not nodes:
             self._schedule_next_heart()
             return
-
         node = random.choice(nodes)
         node_rect = node.boundingRect()
         start_pos = node.pos() + QPointF(node_rect.width() / 2 - 12, -45)
-
         heart = QGraphicsTextItem("💕")
         heart.setDefaultTextColor(QColor(255, 182, 193, 200))  # soft warm pink, gentle opacity
         heart.setFont(QFont("Segoe UI Emoji", 22))
         heart.setOpacity(0.0)
         heart.setPos(start_pos)
         self.sketch_scene.addItem(heart)
-
         # Gentle animation group: fade in → float up → fade out
         group = QSequentialAnimationGroup()
-
         fade_in = QPropertyAnimation(heart, b"opacity")
         fade_in.setDuration(900)
         fade_in.setStartValue(0.0)
         fade_in.setEndValue(0.85)
         fade_in.setEasingCurve(QEasingCurve.InOutQuad)
-
         move = QPropertyAnimation(heart, b"pos")
         move.setDuration(3200)
         move.setStartValue(start_pos)
         move.setEndValue(start_pos + QPointF(random.uniform(-15, 15), -110))  # slight natural drift
         move.setEasingCurve(QEasingCurve.OutCubic)
-
         fade_out = QPropertyAnimation(heart, b"opacity")
         fade_out.setDuration(1100)
         fade_out.setStartValue(0.85)
         fade_out.setEndValue(0.0)
         fade_out.setEasingCurve(QEasingCurve.InQuad)
-
         group.addAnimation(fade_in)
         group.addAnimation(move)
         group.addAnimation(fade_out)
-
         def remove_heart():
             if heart.scene():
                 self.sketch_scene.removeItem(heart)
         group.finished.connect(remove_heart)
         group.start()
-
         # Schedule the next one
         self._schedule_next_heart()
 
@@ -192,24 +193,20 @@ class CushionsWindow(QMainWindow):
         qss_path = Path(__file__).parent / "styles.qss"
         if qss_path.exists():
             self.setStyleSheet(qss_path.read_text())
-
         central = QWidget()
         central.setObjectName("centralWidget")
         self.setCentralWidget(central)
-
         # ✨ Cozy QSplitter — lets the options panel park beautifully in fullscreen
         self.main_splitter = QSplitter(Qt.Horizontal)
         self.main_splitter.setHandleWidth(8)
         self.main_splitter.setStretchFactor(0, 0)
         self.main_splitter.setStretchFactor(1, 1)
         self.main_splitter.setSizes([380, 920])
-
         # LEFT PANEL
         left_panel = QWidget()
         left_layout = QVBoxLayout(left_panel)
         left_layout.setContentsMargins(20, 20, 20, 20)
         left_layout.setSpacing(16)
-
         top_bar = QWidget()
         top_layout = QHBoxLayout(top_bar)
         top_layout.setContentsMargins(0, 0, 0, 0)
@@ -217,24 +214,18 @@ class CushionsWindow(QMainWindow):
         self._add_tool_btn("📜", self.show_log, top_layout)
         self._add_tool_btn("📋", self.show_feature_list, top_layout)
         self._add_tool_btn("⚙", self.open_settings, top_layout)
-        about_btn = self._add_tool_btn(None, self.show_about, top_layout)
-        about_btn.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
         self._add_tool_btn("🚪 Exit", self.quit_app, top_layout)
         left_layout.addWidget(top_bar)
-
         title = QLabel("What shall we do today?")
         title.setObjectName("titleLabel")
         title.setAlignment(Qt.AlignCenter)
         left_layout.addWidget(title)
-
         self.drop_area = CozyDropArea()
         left_layout.addWidget(self.drop_area)
-
         self.browse_btn = QPushButton("Browse File")
         self.browse_btn.setFixedHeight(46)
         self.browse_btn.clicked.connect(self.browse_file)
         left_layout.addWidget(self.browse_btn)
-
         combo_layout = QHBoxLayout()
         combo_layout.addWidget(QLabel("Send to:"))
         self.action_combo = QComboBox()
@@ -247,60 +238,47 @@ class CushionsWindow(QMainWindow):
         """)
         combo_layout.addWidget(self.action_combo)
         left_layout.addLayout(combo_layout)
-
         self.save_btn = QPushButton("💾 Save Edits & Layout")
         self.save_btn.clicked.connect(self._save_sketchbook_edits)
         self.save_btn.setEnabled(False)
         self.save_btn.setStyleSheet("background: #3a3a3a; color: #6b5a47; font-weight: bold; padding: 10px;")
         left_layout.addWidget(self.save_btn)
-
         self.status_label = QLabel("Drag or browse a .md/.txt file to start")
         self.status_label.setObjectName("statusLabel")
         self.status_label.setAlignment(Qt.AlignCenter)
         left_layout.addWidget(self.status_label)
-
         self.progress = QProgressBar()
         self.progress.setVisible(False)
         left_layout.addWidget(self.progress)
-
         left_layout.addStretch()
-
         # RIGHT PANEL
         right_panel = QWidget()
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(8, 8, 8, 8)
         right_layout.setSpacing(6)
-
         self.sketch_title = QLabel("Warm Sketchbook 🌱")
         self.sketch_title.setAlignment(Qt.AlignCenter)
         self.sketch_title.setStyleSheet("color: #8a7a67; font-size: 18px; font-weight: bold; padding: 8px;")
         right_layout.addWidget(self.sketch_title)
-
         self.sketch_scene = QGraphicsScene(self)
         self.sketch_scene.setBackgroundBrush(QColor("#282828"))
         self.add_background_texture()
-
         self.sketch_view = PanZoomGraphicsView(self.sketch_scene, self)
         self.sketch_view.setMinimumWidth(720)
         right_layout.addWidget(self.sketch_view)
-
         # Add panels to splitter FIRST (fixes the "Index 0 out of range" warning)
         self.main_splitter.addWidget(left_panel)
         self.main_splitter.addWidget(right_panel)
-
         # Now configure collapsible AFTER widgets are added
         self.main_splitter.setCollapsible(0, True)
-
         # Put splitter into central widget
         central_layout = QHBoxLayout(central)
         central_layout.setContentsMargins(12, 12, 12, 12)
         central_layout.setSpacing(12)
         central_layout.addWidget(self.main_splitter)
-
         self.sensitivity_slider = SensitivitySlider(self)
         self.sensitivity_slider.setParent(self.sketch_view)
         self.sensitivity_slider.move(self.sketch_view.width() - 240, self.sketch_view.height() - 80)
-
         self._populate_sample_nodes()
 
     def _add_tool_btn(self, text, callback, layout):
@@ -359,8 +337,11 @@ class CushionsWindow(QMainWindow):
         self.anim.start()
 
     def open_settings(self): SettingsDialog(self).exec()
+
     def show_feature_list(self): FeatureListDialog(self).exec()
+
     def show_log(self): LogViewerDialog(self).exec()
+
     def show_about(self): AboutDialog(self).exec()
 
     def browse_file(self):
@@ -373,10 +354,8 @@ class CushionsWindow(QMainWindow):
     def process_file(self, path):
         if getattr(self, 'worker_thread', None) and self.worker_thread.isRunning():
             return
-
         self.show_and_fade()
         self.status_label.setText("Processing file...")
-
         if self.action_combo.currentText() == "Upload to Trello 🌅":
             self._upload_to_trello(path)
         else:
@@ -387,7 +366,6 @@ class CushionsWindow(QMainWindow):
         last_file = Settings.get("last_opened_file", "")
         if not last_file:
             return
-
         path = Path(last_file)
         if path.exists() and path.suffix.lower() in (".md", ".txt"):
             self.logger.info(f"🌱 Auto-opening your last cozy canvas: {path.name}")
@@ -421,8 +399,7 @@ class CushionsWindow(QMainWindow):
         self.save_btn.setEnabled(False)
         self.sketch_title.setText("Warm Sketchbook 🌱")
         self.worker_thread = QThread()
-        self.worker = TrelloAPI.create_upload_worker(path)   # ✨ so clean!
-
+        self.worker = TrelloAPI.create_upload_worker(path)  # ✨ so clean!
         self.worker.moveToThread(self.worker_thread)
         self.worker.total_updated.connect(self.progress.setMaximum)
         self.worker.progress_updated.connect(self.progress.setValue)
@@ -434,7 +411,7 @@ class CushionsWindow(QMainWindow):
         self.worker.finished.connect(self.worker.deleteLater)
         self.worker_thread.finished.connect(self._cleanup_worker_thread)
         self.worker_thread.finished.connect(self.worker_thread.deleteLater)
-        self.worker_thread.started.connect(self.worker.run)   # direct & simple
+        self.worker_thread.started.connect(self.worker.run)  # direct & simple
         self.worker_thread.start()
 
     def _cleanup_worker_thread(self):
@@ -445,7 +422,6 @@ class CushionsWindow(QMainWindow):
         try:
             file_path = Path(path)
             text = file_path.read_text(encoding='utf-8').strip()
-
             layout_path = file_path.parent / f".{file_path.name}.layout.json"
             saved_layout = {}
             if layout_path.exists():
@@ -453,7 +429,6 @@ class CushionsWindow(QMainWindow):
                     saved_layout = json.loads(layout_path.read_text(encoding='utf-8'))
                 except Exception as e:
                     self.logger.warning(f"Could not load layout file: {e}")
-
             paragraphs = []
             for block in text.split('\n\n'):
                 cleaned = block.strip()
@@ -463,17 +438,14 @@ class CushionsWindow(QMainWindow):
                     cleaned = cleaned.lstrip('#').strip()
                 if cleaned:
                     paragraphs.append(cleaned)
-
             if not paragraphs:
                 QMessageBox.warning(self, "Empty", "No content found after filtering.")
                 return
-
             for item in list(self.sketch_scene.items()):
                 if isinstance(item, WarmNode):
                     self.sketch_scene.removeItem(item)
-
             for i, para in enumerate(paragraphs, 1):
-                node_hash = get_content_hash(para)
+                node_hash = Helpers.get_content_hash(para)  # ← Updated!
                 if node_hash in saved_layout:
                     coords = saved_layout[node_hash]
                     pos = QPointF(coords[0], coords[1])
@@ -481,10 +453,8 @@ class CushionsWindow(QMainWindow):
                     angle = radians(random.uniform(0, 360))
                     distance = random.uniform(180, 850)
                     pos = QPointF(distance * cos(angle), distance * sin(angle))
-
                 node = WarmNode(i, title="", full_text=para, pos=pos)
                 self.sketch_scene.addItem(node)
-
             self.sketch_view.centerOn(0, 0)
             self.current_md_file = path
             self.save_btn.setEnabled(True)
@@ -504,7 +474,7 @@ class CushionsWindow(QMainWindow):
         nodes.sort(key=lambda n: n.node_id)
         new_content = '\n\n'.join(node.full_text for node in nodes)
         layout_map = {
-            get_content_hash(node.full_text): [node.pos().x(), node.pos().y()]
+            Helpers.get_content_hash(node.full_text): [node.pos().x(), node.pos().y()]  # ← Updated!
             for node in nodes
         }
         try:
@@ -530,4 +500,3 @@ class CushionsWindow(QMainWindow):
         self.progress.setVisible(False)
         self.logger.error(f"Upload failed: {msg}")
         QMessageBox.critical(self, "Upload Failed", msg)
-        
