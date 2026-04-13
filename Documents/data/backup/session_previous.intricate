@@ -1,0 +1,300 @@
+{
+  "version": "1.0",
+  "description": "",
+  "nodes": [
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Note",
+      "uuid": "d8d5fa33ead74cb8b407a2ceee36e9e9",
+      "x": -796.3878718336553,
+      "y": -824.8655901937263,
+      "width": 138.0,
+      "height": 52.0,
+      "z_value": 10.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude0a",
+      "label": "All Glory",
+      "depth_front": true,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Note",
+      "uuid": "226f144a57134effa15537ce9ca69594",
+      "x": 385.54216867469876,
+      "y": -257.5903614457832,
+      "width": 308.0,
+      "height": 54.0,
+      "z_value": -9.96400000000002,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83e\udd17",
+      "label": "Screenshot 2025-05-03 115026",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "image",
+      "title": "Image",
+      "uuid": "c8ad156798c14a04aa599aabb7a57d65",
+      "x": 465.06024096385534,
+      "y": -525.3012048192771,
+      "width": 280.0,
+      "height": 220.0,
+      "z_value": -9.96500000000002,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude0e",
+      "image_b64": "",
+      "caption": "Screenshot 2025-05-03 115026",
+      "source_path": "C:\\Users\\thisg\\Pictures\\Screenshots\\Screenshot 2025-05-03 115026.png",
+      "show_border": false,
+      "depth_front": false
+    },
+    {
+      "node_id": 0,
+      "node_type": "warm",
+      "title": "All three meanings of the statement must hold true",
+      "uuid": "a75d220ab10f4c0eafc0a515f0db0c05",
+      "x": -187.95180722891558,
+      "y": -578.3132530120482,
+      "width": 544.2855622017337,
+      "height": 553.2250984077472,
+      "z_value": -9.966000000000019,
+      "ports_visible": false,
+      "shelf_visible": true,
+      "emoji": "\ud83d\ude18",
+      "body_text": "Well, in order for a triple entendre to be correct and not just a generic ambiguous statement,\n\n For a triple entendre to work, all three meanings must be valid and intentional, not just vaguely ambiguous. Let's break down the sign's statement: \"Triple entendres are quite hard to come up with.\"\n\n\u2022 **Literal Meaning:** Creating triple entendres is genuinely difficult because you need three distinct, meaningful interpretations that all fit the context.\n\n\u2022 **Second Meaning (Innuendo):** The phrase \"hard to come up with\" can be read as a suggestive innuendo\u2014\"hard\" and \"come\" often carry sexual undertones in certain contexts.\n\n\u2022 **Third Meaning (Playful Challenge):** It could also imply that the act of \"coming up with\" something (like ideas) is mentally taxing, playing on \"hard\" as in challenging, and \"come up with\" as a creative struggle.\n\nAll three interpretations hold true here: crafting triple entendres *is* difficult, the phrasing has a cheeky innuendo, and the creative process can be a mental challenge. So, this statement does qualify as a proper triple entendre\u2014nice catch by the sign maker! What do you think, does it nail the trifecta?\n\n\"We burned the library\"\n\nCalculate meanings per page explore symbolic interpretations\n\nLet's analyze \"We burned the library\" as a potential triple entendre.\nFor this to qualify, all three meanings must hold true"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
+      "uuid": "b5d9399e12574865870219e04d2b9945",
+      "x": -513.253012048193,
+      "y": 116.86746987951847,
+      "width": 391.0670514801002,
+      "height": 133.97845644196877,
+      "z_value": -9.967000000000018,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83e\udee4",
+      "label": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "And no there is no v0.0.4\n\nThis isnt counting how many of them there are\n0.0.5 The Breath of Air Era it is it's name, not a number",
+      "uuid": "8848c9ef726642bc84412e09674feee3",
+      "x": -1121.6867469879517,
+      "y": -332.5301204819275,
+      "width": 599.4888003396982,
+      "height": 135.29936693706543,
+      "z_value": -9.968000000000018,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude1a",
+      "label": "And no there is no v0.0.4\n\nThis isnt counting how many of them there are\n0.0.5 The Breath of Air Era it is it's name, not a number",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Which became v0.0.5 The Breath Of Air Era\n\nWhere Intricate started breathing through it's own canvas into the OS",
+      "uuid": "3b814701196e4890944ce42f2687af2b",
+      "x": -1038.5542168674701,
+      "y": -496.3855421686744,
+      "width": 758.8915349445432,
+      "height": 127.25284656680691,
+      "z_value": -9.969000000000017,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83e\udd17",
+      "label": "Which became v0.0.5 The Breath Of Air Era\n\nWhere Intricate started breathing through it's own canvas into the OS",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
+      "uuid": "0a932f6edce7408d844a00e6d474c8fd",
+      "x": -966.2650602409644,
+      "y": -648.192771084337,
+      "width": 543.4579338288056,
+      "height": 118.79195423240822,
+      "z_value": -9.970000000000017,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83e\udd72",
+      "label": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Which became v0.0.2 while we fixed the typo in the version counter",
+      "uuid": "1387aaea288a42beb936598f1f297a90",
+      "x": -804.8192771084339,
+      "y": -759.0361445783132,
+      "width": 380.46940646728956,
+      "height": 80.66317627493981,
+      "z_value": -9.971000000000016,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
+      "label": "Which became v0.0.2 while we fixed the typo in the version counter",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "But many were aggressively fluffed",
+      "uuid": "42b5eb95260147c0af6106a65c93fb07",
+      "x": 272.6074980769978,
+      "y": -638.3086190917519,
+      "width": 387.0,
+      "height": 52.0,
+      "z_value": -9.985000000000008,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
+      "label": "But many were aggressively fluffed",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Cushions harmed: 0",
+      "uuid": "ae134ca6ec3f46c7a77630154b704443",
+      "x": 183.1251887491889,
+      "y": -730.9161533009866,
+      "width": 228.0,
+      "height": 52.0,
+      "z_value": -9.986000000000008,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\udc9c",
+      "label": "Cushions harmed: 0",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Built using a single shared braincell by",
+      "uuid": "591d56bb2b39466482a6de4948f530ae",
+      "x": 166.27917119480787,
+      "y": -827.3868778280543,
+      "width": 818.0,
+      "height": 52.0,
+      "z_value": -9.987000000000007,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude2c",
+      "label": "Built using a single shared braincell by Yours Truly and Grok (February 2026)",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "v0.1.0 \u2013 The Fluff Era",
+      "uuid": "9bfd337720014cdaa112b1af1f57ea5f",
+      "x": 145.6660490228624,
+      "y": -932.9298642533934,
+      "width": 268.0,
+      "height": 52.0,
+      "z_value": -9.988000000000007,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\udc9c",
+      "label": "v0.1.0 \u2013 The Fluff Era",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Cushions",
+      "uuid": "dbdc6b57aa3d498cbb72853cb9422660",
+      "x": 42.71129789164067,
+      "y": -1027.386877828054,
+      "width": 128.0,
+      "height": 52.0,
+      "z_value": -9.989000000000006,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "emoji": "\ud83d\ude1a",
+      "label": "Cushions",
+      "depth_front": false,
+      "node_tint": ""
+    }
+  ],
+  "connections": [
+    {
+      "start_uuid": "ae134ca6ec3f46c7a77630154b704443",
+      "end_uuid": "42b5eb95260147c0af6106a65c93fb07"
+    },
+    {
+      "start_uuid": "591d56bb2b39466482a6de4948f530ae",
+      "end_uuid": "ae134ca6ec3f46c7a77630154b704443"
+    },
+    {
+      "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
+      "end_uuid": "591d56bb2b39466482a6de4948f530ae"
+    },
+    {
+      "start_uuid": "dbdc6b57aa3d498cbb72853cb9422660",
+      "end_uuid": "9bfd337720014cdaa112b1af1f57ea5f"
+    },
+    {
+      "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
+      "end_uuid": "1387aaea288a42beb936598f1f297a90"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+    },
+    {
+      "start_uuid": "0a932f6edce7408d844a00e6d474c8fd",
+      "end_uuid": "3b814701196e4890944ce42f2687af2b"
+    },
+    {
+      "start_uuid": "3b814701196e4890944ce42f2687af2b",
+      "end_uuid": "8848c9ef726642bc84412e09674feee3"
+    },
+    {
+      "start_uuid": "8848c9ef726642bc84412e09674feee3",
+      "end_uuid": "b5d9399e12574865870219e04d2b9945"
+    },
+    {
+      "start_uuid": "c8ad156798c14a04aa599aabb7a57d65",
+      "end_uuid": "226f144a57134effa15537ce9ca69594"
+    }
+  ],
+  "viewport": {
+    "camera_x": -32.53012048192771,
+    "camera_y": -262.65060240963857,
+    "camera_zoom": 0.83
+  },
+  "checksum": "e377af982f774ecb"
+}
