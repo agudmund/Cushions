@@ -14,7 +14,7 @@
       "z_value": 10.0,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude0a",
+      "emoji": "\ud83d\udc96",
       "label": "All Glory",
       "depth_front": true,
       "node_tint": ""
@@ -31,7 +31,7 @@
       "z_value": -9.96400000000002,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udd17",
+      "emoji": "\ud83d\ude0f",
       "label": "Screenshot 2025-05-03 115026",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -48,7 +48,7 @@
       "z_value": -9.96500000000002,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude0e",
+      "emoji": "\ud83d\ude12",
       "image_b64": "",
       "caption": "Screenshot 2025-05-03 115026",
       "source_path": "C:\\Users\\thisg\\Pictures\\Screenshots\\Screenshot 2025-05-03 115026.png",
@@ -99,7 +99,7 @@
       "z_value": -9.968000000000018,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude1a",
+      "emoji": "\ud83e\uddf8",
       "label": "And no there is no v0.0.4\n\nThis isnt counting how many of them there are\n0.0.5 The Breath of Air Era it is it's name, not a number",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -116,7 +116,7 @@
       "z_value": -9.969000000000017,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udd17",
+      "emoji": "\ud83e\uddf8",
       "label": "Which became v0.0.5 The Breath Of Air Era\n\nWhere Intricate started breathing through it's own canvas into the OS",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -133,7 +133,7 @@
       "z_value": -9.970000000000017,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udd72",
+      "emoji": "\ud83d\ude09",
       "label": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -150,7 +150,7 @@
       "z_value": -9.971000000000016,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
+      "emoji": "\ud83d\ude2f",
       "label": "Which became v0.0.2 while we fixed the typo in the version counter",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -167,7 +167,7 @@
       "z_value": -9.985000000000008,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
+      "emoji": "\ud83d\ude1a",
       "label": "But many were aggressively fluffed",
       "depth_front": false,
       "node_tint": ""
@@ -184,7 +184,7 @@
       "z_value": -9.986000000000008,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\udc9c",
+      "emoji": "\ud83d\ude17",
       "label": "Cushions harmed: 0",
       "depth_front": false,
       "node_tint": ""
@@ -201,7 +201,7 @@
       "z_value": -9.987000000000007,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude2c",
+      "emoji": "\ud83e\udee4",
       "label": "Built using a single shared braincell by Yours Truly and Grok (February 2026)",
       "depth_front": false,
       "node_tint": ""
@@ -218,7 +218,7 @@
       "z_value": -9.988000000000007,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\udc9c",
+      "emoji": "\ud83d\ude2c",
       "label": "v0.1.0 \u2013 The Fluff Era",
       "depth_front": false,
       "node_tint": ""
@@ -235,7 +235,7 @@
       "z_value": -9.989000000000006,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude1a",
+      "emoji": "\ud83e\udd70",
       "label": "Cushions",
       "depth_front": false,
       "node_tint": ""
@@ -243,16 +243,36 @@
   ],
   "connections": [
     {
-      "start_uuid": "ae134ca6ec3f46c7a77630154b704443",
-      "end_uuid": "42b5eb95260147c0af6106a65c93fb07"
+      "start_uuid": "c8ad156798c14a04aa599aabb7a57d65",
+      "end_uuid": "226f144a57134effa15537ce9ca69594"
     },
     {
-      "start_uuid": "591d56bb2b39466482a6de4948f530ae",
-      "end_uuid": "ae134ca6ec3f46c7a77630154b704443"
+      "start_uuid": "8848c9ef726642bc84412e09674feee3",
+      "end_uuid": "b5d9399e12574865870219e04d2b9945"
+    },
+    {
+      "start_uuid": "3b814701196e4890944ce42f2687af2b",
+      "end_uuid": "8848c9ef726642bc84412e09674feee3"
+    },
+    {
+      "start_uuid": "0a932f6edce7408d844a00e6d474c8fd",
+      "end_uuid": "3b814701196e4890944ce42f2687af2b"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+    },
+    {
+      "start_uuid": "1387aaea288a42beb936598f1f297a90",
+      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
     },
     {
       "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
-      "end_uuid": "591d56bb2b39466482a6de4948f530ae"
+      "end_uuid": "1387aaea288a42beb936598f1f297a90"
     },
     {
       "start_uuid": "dbdc6b57aa3d498cbb72853cb9422660",
@@ -260,41 +280,21 @@
     },
     {
       "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
-      "end_uuid": "1387aaea288a42beb936598f1f297a90"
+      "end_uuid": "591d56bb2b39466482a6de4948f530ae"
     },
     {
-      "start_uuid": "1387aaea288a42beb936598f1f297a90",
-      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
+      "start_uuid": "591d56bb2b39466482a6de4948f530ae",
+      "end_uuid": "ae134ca6ec3f46c7a77630154b704443"
     },
     {
-      "start_uuid": "1387aaea288a42beb936598f1f297a90",
-      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
-    },
-    {
-      "start_uuid": "1387aaea288a42beb936598f1f297a90",
-      "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
-    },
-    {
-      "start_uuid": "0a932f6edce7408d844a00e6d474c8fd",
-      "end_uuid": "3b814701196e4890944ce42f2687af2b"
-    },
-    {
-      "start_uuid": "3b814701196e4890944ce42f2687af2b",
-      "end_uuid": "8848c9ef726642bc84412e09674feee3"
-    },
-    {
-      "start_uuid": "8848c9ef726642bc84412e09674feee3",
-      "end_uuid": "b5d9399e12574865870219e04d2b9945"
-    },
-    {
-      "start_uuid": "c8ad156798c14a04aa599aabb7a57d65",
-      "end_uuid": "226f144a57134effa15537ce9ca69594"
+      "start_uuid": "ae134ca6ec3f46c7a77630154b704443",
+      "end_uuid": "42b5eb95260147c0af6106a65c93fb07"
     }
   ],
   "viewport": {
-    "camera_x": -32.53012048192771,
-    "camera_y": -262.65060240963857,
-    "camera_zoom": 0.83
+    "camera_x": 1363.3761913257586,
+    "camera_y": 93.50588922809408,
+    "camera_zoom": 0.3315299202639525
   },
-  "checksum": "e377af982f774ecb"
+  "checksum": "6217765c8b45bfff"
 }
