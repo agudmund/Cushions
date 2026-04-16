@@ -14,27 +14,9 @@
       "z_value": 10.0,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude0a",
       "label": "All Glory",
       "depth_front": true,
       "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Note",
-      "uuid": "226f144a57134effa15537ce9ca69594",
-      "x": 385.54216867469876,
-      "y": -257.5903614457832,
-      "width": 308.0,
-      "height": 54.0,
-      "z_value": -9.96400000000002,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "emoji": "\ud83e\udd17",
-      "label": "Screenshot 2025-05-03 115026",
-      "depth_front": false,
-      "node_tint": "#2a3a2f"
     },
     {
       "node_id": 0,
@@ -48,8 +30,8 @@
       "z_value": -9.96500000000002,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude0e",
       "image_b64": "",
+      "cache_key": "845de01d70119e1a3a8b6565322188a43e98096e794937a9438f946ac53e2466",
       "caption": "Screenshot 2025-05-03 115026",
       "source_path": "C:\\Users\\thisg\\Pictures\\Screenshots\\Screenshot 2025-05-03 115026.png",
       "show_border": false,
@@ -67,7 +49,6 @@
       "z_value": -9.966000000000019,
       "ports_visible": false,
       "shelf_visible": true,
-      "emoji": "\ud83d\ude18",
       "body_text": "Well, in order for a triple entendre to be correct and not just a generic ambiguous statement,\n\n For a triple entendre to work, all three meanings must be valid and intentional, not just vaguely ambiguous. Let's break down the sign's statement: \"Triple entendres are quite hard to come up with.\"\n\n\u2022 **Literal Meaning:** Creating triple entendres is genuinely difficult because you need three distinct, meaningful interpretations that all fit the context.\n\n\u2022 **Second Meaning (Innuendo):** The phrase \"hard to come up with\" can be read as a suggestive innuendo\u2014\"hard\" and \"come\" often carry sexual undertones in certain contexts.\n\n\u2022 **Third Meaning (Playful Challenge):** It could also imply that the act of \"coming up with\" something (like ideas) is mentally taxing, playing on \"hard\" as in challenging, and \"come up with\" as a creative struggle.\n\nAll three interpretations hold true here: crafting triple entendres *is* difficult, the phrasing has a cheeky innuendo, and the creative process can be a mental challenge. So, this statement does qualify as a proper triple entendre\u2014nice catch by the sign maker! What do you think, does it nail the trifecta?\n\n\"We burned the library\"\n\nCalculate meanings per page explore symbolic interpretations\n\nLet's analyze \"We burned the library\" as a potential triple entendre.\nFor this to qualify, all three meanings must hold true"
     },
     {
@@ -82,7 +63,6 @@
       "z_value": -9.967000000000018,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udee4",
       "label": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -99,7 +79,6 @@
       "z_value": -9.968000000000018,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude1a",
       "label": "And no there is no v0.0.4\n\nThis isnt counting how many of them there are\n0.0.5 The Breath of Air Era it is it's name, not a number",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -116,7 +95,6 @@
       "z_value": -9.969000000000017,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udd17",
       "label": "Which became v0.0.5 The Breath Of Air Era\n\nWhere Intricate started breathing through it's own canvas into the OS",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -133,7 +111,6 @@
       "z_value": -9.970000000000017,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83e\udd72",
       "label": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -150,7 +127,6 @@
       "z_value": -9.971000000000016,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
       "label": "Which became v0.0.2 while we fixed the typo in the version counter",
       "depth_front": false,
       "node_tint": "#2a3a2f"
@@ -167,7 +143,6 @@
       "z_value": -9.985000000000008,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
       "label": "But many were aggressively fluffed",
       "depth_front": false,
       "node_tint": ""
@@ -184,7 +159,6 @@
       "z_value": -9.986000000000008,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\udc9c",
       "label": "Cushions harmed: 0",
       "depth_front": false,
       "node_tint": ""
@@ -201,7 +175,6 @@
       "z_value": -9.987000000000007,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude2c",
       "label": "Built using a single shared braincell by Yours Truly and Grok (February 2026)",
       "depth_front": false,
       "node_tint": ""
@@ -218,7 +191,6 @@
       "z_value": -9.988000000000007,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\udc9c",
       "label": "v0.1.0 \u2013 The Fluff Era",
       "depth_front": false,
       "node_tint": ""
@@ -235,7 +207,6 @@
       "z_value": -9.989000000000006,
       "ports_visible": false,
       "shelf_visible": false,
-      "emoji": "\ud83d\ude1a",
       "label": "Cushions",
       "depth_front": false,
       "node_tint": ""
@@ -285,16 +256,12 @@
     {
       "start_uuid": "8848c9ef726642bc84412e09674feee3",
       "end_uuid": "b5d9399e12574865870219e04d2b9945"
-    },
-    {
-      "start_uuid": "c8ad156798c14a04aa599aabb7a57d65",
-      "end_uuid": "226f144a57134effa15537ce9ca69594"
     }
   ],
   "viewport": {
-    "camera_x": -32.53012048192771,
-    "camera_y": -262.65060240963857,
-    "camera_zoom": 0.83
+    "camera_x": -373.00953388554217,
+    "camera_y": 264.1641289156626,
+    "camera_zoom": 0.8176734702271422
   },
-  "checksum": "e377af982f774ecb"
+  "checksum": "1514d2e86defc8c3"
 }
