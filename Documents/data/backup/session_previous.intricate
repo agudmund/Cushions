@@ -20,6 +20,35 @@
     },
     {
       "node_id": 0,
+      "node_type": "premiere_bridge",
+      "title": "Premiere Bridge",
+      "uuid": "e6927713d93d4ebe9bcdd15d4dfa6a88",
+      "x": -940.4732182228917,
+      "y": 110.06838704819268,
+      "width": 332.2942264656847,
+      "height": 204.88981893357567,
+      "z_value": -9.961000000000022,
+      "ports_visible": false,
+      "shelf_visible": true,
+      "host": "127.0.0.1",
+      "port": 9914,
+      "target_track": 0,
+      "target_clip": 0,
+      "expected_project": "",
+      "expected_sequence": "",
+      "last_project_path": "C:\\Users\\thisg\\Desktop\\Stuff Stuffing Stuffs And Stuff\\Adobe\\Stuff Stuffing Stuffs And Stuff.prproj",
+      "last_fps": 24.0,
+      "last_width": 1280,
+      "last_height": 768,
+      "last_video_tracks": 3,
+      "last_audio_tracks": 3,
+      "last_end_seconds": 0.0,
+      "last_clip_name": "The Majestic.mp4",
+      "last_premiere_ver": "26.2.0",
+      "last_handshake_at": "2026-04-17T07:53:14+00:00"
+    },
+    {
+      "node_id": 0,
       "node_type": "image",
       "title": "Image",
       "uuid": "c8ad156798c14a04aa599aabb7a57d65",
@@ -259,9 +288,9 @@
     }
   ],
   "viewport": {
-    "camera_x": -288.62377048192775,
-    "camera_y": 13.452802861445775,
+    "camera_x": 233.58957695783124,
+    "camera_y": -661.6333043674697,
     "camera_zoom": 0.8176734702271422
   },
-  "checksum": "32a7154bd600d9ec"
+  "checksum": "0906d9c902f47c2a"
 }
