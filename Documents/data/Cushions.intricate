@@ -69,54 +69,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Persistent Claude node",
-      "uuid": "bbe1eae66ee4481f85f4681e650599b2",
-      "x": 797.8700184659127,
-      "y": 820.7192372609893,
-      "width": 248.0,
-      "height": 31.0,
-      "z_value": -9.914000000000048,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Persistent Claude node",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "About node .md writeup",
-      "uuid": "8c335a84f0174c00949441c68155ef04",
-      "x": 792.7878667505317,
-      "y": 473.71741365250386,
-      "width": 248.0,
-      "height": 32.0,
-      "z_value": -9.944000000000031,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "About node .md writeup",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Just a tiny min scale in y for the rescale icon on about node",
-      "uuid": "bea352e0bac44a65a6b6992866443bb1",
-      "x": 794.5654180212728,
-      "y": 621.2541691240153,
-      "width": 638.0,
-      "height": 27.0,
-      "z_value": -9.92900000000004,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Just a tiny min scale in y for the rescale icon on about node",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "Note",
       "uuid": "d8d5fa33ead74cb8b407a2ceee36e9e9",
       "x": -796.3878718336553,
@@ -159,38 +111,6 @@
       "ports_visible": false,
       "shelf_visible": false,
       "label": "v0.1.0 \u2013 The Fluff Era",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Sleep stickers",
-      "uuid": "f7bf717760094f6ca9811ad1b6e47df9",
-      "x": 806.6607717544334,
-      "y": 1108.8530238667486,
-      "width": 168.0,
-      "height": 32.0,
-      "z_value": -9.948000000000029,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Sleep stickers",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Warm node caret should start at end of text, currently starts at front",
-      "uuid": "9262788b5cd84dcca6023d7864c47a00",
-      "x": 797.8700184659131,
-      "y": 930.6425060589246,
-      "width": 728.0,
-      "height": 31.0,
-      "z_value": -9.912000000000049,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Warm node caret should start at end of text, currently starts at front",
       "depth_front": false,
       "node_tint": ""
     },
@@ -323,22 +243,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Sidebar icons",
-      "uuid": "5c52c66147644fe8847c58f021a6e3fe",
-      "x": 801.9462583409093,
-      "y": 1076.23896059471,
-      "width": 158.0,
-      "height": 32.0,
-      "z_value": -9.949000000000028,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Sidebar icons",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "Cushions",
       "uuid": "dbdc6b57aa3d498cbb72853cb9422660",
       "x": 42.71129789164067,
@@ -389,8 +293,8 @@
       "node_type": "about",
       "title": "The Wni who fee proofreading accountant",
       "uuid": "b202e48b628245f7bac2ceb2d6af6bde",
-      "x": 801.5752971894385,
-      "y": 1004.1305340755221,
+      "x": 802.8737101262917,
+      "y": 937.9114742960132,
       "width": 418.0,
       "height": 31.0,
       "z_value": -9.91000000000005,
@@ -413,21 +317,6 @@
       "ports_visible": false,
       "shelf_visible": true,
       "body_text": "A man on a donkey in 1635\nThe scent of a flower on a Thursday\nThe sound a candle makes\nA spoon dropped in a cathedral\nFirst breath after swimming underwater\nThe third exhale of a long story\nA child's forgotten birthday wish\nMoonrise viewed from a kitchen window\nThe taste of tap water at 3am\nA door closing behind someone you love\nThe first hour of a snowstorm\nA grandmother's lullaby half-remembered\nCoffee steam on a bathroom mirror\nThe weight of an unopened letter\nFootsteps in an empty hallway\nA postman pausing before knocking\nThe smell of rain on hot pavement\nA letter that arrived eleven days late\nThe last verse of a song nobody sings anymore\nA dog dreaming\nSunday afternoon in a library with no one in it\nA forgotten pocket in a winter coat\nThe quiet between two fireworks\nTea steeping for far too long\nAn old map folded wrong\nThe first cricket of summer\nA stranger's laugh overheard on a train\nA child counting stars out loud\nThe click of a film camera in the next room\nA train whistle at 4am\nThe last page of a book you didn't want to end\nA kettle about to boil\nRain hitting a window at night\nA cat watching traffic from a fourth-floor sill\nThe breath between two lines of poetry\nA balloon caught in a winter tree\nA telephone ringing in a film\nA candle three seconds after blowing out\nThe pause before a joke lands\nA passport lost and then found\nSnow melting on a hat you forgot you were wearing\nRust on a bicycle chain in April\nThe moment before applause\nA pigeon landing on a statue's head\nThe smell of a library book from 1974\nA broken promise, nonetheless kept\nA forgotten umbrella at a wedding\nThe last warm day of September\nA hand waving goodbye through a train window\nA bird flying into a room and out again\nThe taste of your own name said by a stranger\nA childhood pet's name\nThe sound a memory makes when it almost surfaces\nCoffee gone cold on a desk\nA cake baking in an empty house\nAn email sent to exactly the wrong person\nFootprints in wet sand being erased\nA mother calling you home for dinner\nThe shadow of a moth on a lampshade\nA coin spinning on a wooden table\nA subway arriving empty at midnight\nThe warmth of a laptop on your legs\nA doorway that only exists in a dream\nThe echo of a church bell at dusk\nA neighbor practicing piano badly\nAn aunt's kitchen in the summer of 1992\nWind pushing a screen door gently\nA recipe written in pencil on an index card\nA photograph deleted accidentally\nThe weight of words you didn't say\nA puddle reflecting a cloud\nA conversation with your eighteen-year-old self\nThe last letter of a foreign alphabet\nA friend who moved away and stayed away\nDust dancing in a beam of sunlight\nThe kind of silence only cats know\nA freshly-made hotel bed\nThe gap between a breath and a sigh\nThe hum of a refrigerator at night\nA wedding ring left on a bedside table\nA library card from 1987\nA child's drawing held up by a magnet\nA chair that remembers the shape of someone\nThe breeze from a ceiling fan in August\nA grandfather clock ticking in a dark hallway\nThe inside of a snowglobe mid-shake\nAn unpaid utility bill\nThe first frost on grass\nA song stuck in someone else's head\nA book you keep meaning to read\nThe smell of sunscreen on a cold day\nA bowl of cherries in midsummer\nA taxi passing through rain without stopping\nThe sound of a zipper in a quiet room\nA cardboard box with no return address\nAn umbrella on a coat rack in June\nThe taste of homesickness\nA paper crane on a windowsill\nA melody heard only in dreams\nThe moment you realize a page is ending"
-    },
-    {
-      "node_id": 0,
-      "node_type": "git",
-      "title": "Git Status",
-      "uuid": "d746c956ef954239a2d0bc858c6a6d2b",
-      "x": 0.0,
-      "y": 0.0,
-      "width": 300.0,
-      "height": 152.0,
-      "z_value": 0.0,
-      "ports_visible": false,
-      "shelf_visible": true,
-      "depth_front": false,
-      "node_tint": ""
     },
     {
       "node_id": 0,
@@ -494,22 +383,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Initial scatter spawn",
-      "uuid": "c91808f526f84b05bbe040fad6a98f65",
-      "x": 791.8990911151616,
-      "y": 549.263342659001,
-      "width": 238.375,
-      "height": 27.0,
-      "z_value": -9.933000000000037,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Initial scatter spawn",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
       "uuid": "0a932f6edce7408d844a00e6d474c8fd",
       "x": -966.2650602409644,
@@ -522,22 +395,6 @@
       "label": "Which became v0.0.3 The Interlinking Era\n\nWhere we connected the entire thing and wired it up",
       "depth_front": false,
       "node_tint": "#2a3a2f"
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Warm node .md writeup",
-      "uuid": "c5137fcdf3634b30bdc473702ad051af",
-      "x": 800.3402042815968,
-      "y": 967.6952932941838,
-      "width": 238.0,
-      "height": 31.0,
-      "z_value": -9.91100000000005,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Warm node .md writeup",
-      "depth_front": false,
-      "node_tint": ""
     },
     {
       "node_id": 0,
@@ -648,12 +505,12 @@
     }
   ],
   "viewport": {
-    "camera_x": 631.0286873106136,
-    "camera_y": 746.5874386905407,
+    "camera_x": 680.3683789110319,
+    "camera_y": 738.7969610694221,
     "camera_zoom": 0.770171007710105
   },
   "ui_migrations": [
     "image_border_default_on_v1"
   ],
-  "checksum": "99decc64180a9c30"
+  "checksum": "d730f0ddbfd98187"
 }

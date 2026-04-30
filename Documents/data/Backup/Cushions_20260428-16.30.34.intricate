@@ -85,38 +85,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "About node .md writeup",
-      "uuid": "8c335a84f0174c00949441c68155ef04",
-      "x": 792.7878667505317,
-      "y": 473.71741365250386,
-      "width": 248.0,
-      "height": 32.0,
-      "z_value": -9.944000000000031,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "About node .md writeup",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Just a tiny min scale in y for the rescale icon on about node",
-      "uuid": "bea352e0bac44a65a6b6992866443bb1",
-      "x": 794.5654180212728,
-      "y": 621.2541691240153,
-      "width": 638.0,
-      "height": 27.0,
-      "z_value": -9.92900000000004,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Just a tiny min scale in y for the rescale icon on about node",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "Note",
       "uuid": "d8d5fa33ead74cb8b407a2ceee36e9e9",
       "x": -796.3878718336553,
@@ -416,21 +384,6 @@
     },
     {
       "node_id": 0,
-      "node_type": "git",
-      "title": "Git Status",
-      "uuid": "d746c956ef954239a2d0bc858c6a6d2b",
-      "x": 0.0,
-      "y": 0.0,
-      "width": 300.0,
-      "height": 252.0,
-      "z_value": 0.0,
-      "ports_visible": false,
-      "shelf_visible": true,
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
       "node_type": "warm",
       "title": "Inner Peace",
       "uuid": "78d18d1d1e7d4887a9d1f8549fdbfbf4",
@@ -490,22 +443,6 @@
       "label": "Which became v0.0.5 The Breath Of Air Era\n\nWhere Intricate started breathing through it's own canvas into the OS",
       "depth_front": false,
       "node_tint": "#2a3a2f"
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Initial scatter spawn",
-      "uuid": "c91808f526f84b05bbe040fad6a98f65",
-      "x": 791.8990911151616,
-      "y": 549.263342659001,
-      "width": 238.375,
-      "height": 27.0,
-      "z_value": -9.933000000000037,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Initial scatter spawn",
-      "depth_front": false,
-      "node_tint": ""
     },
     {
       "node_id": 0,
@@ -648,12 +585,12 @@
     }
   ],
   "viewport": {
-    "camera_x": 631.0286873106136,
-    "camera_y": 334.9905377081035,
+    "camera_x": 894.6065134917958,
+    "camera_y": 866.0414288810273,
     "camera_zoom": 0.770171007710105
   },
   "ui_migrations": [
     "image_border_default_on_v1"
   ],
-  "checksum": "cfc3f1f4cd4a85eb"
+  "checksum": "3413fc718d0cff35"
 }

@@ -422,7 +422,7 @@
       "x": 0.0,
       "y": 0.0,
       "width": 300.0,
-      "height": 252.0,
+      "height": 152.0,
       "z_value": 0.0,
       "ports_visible": false,
       "shelf_visible": true,
@@ -649,11 +649,11 @@
   ],
   "viewport": {
     "camera_x": 631.0286873106136,
-    "camera_y": 334.9905377081035,
+    "camera_y": 746.5874386905407,
     "camera_zoom": 0.770171007710105
   },
   "ui_migrations": [
     "image_border_default_on_v1"
   ],
-  "checksum": "cfc3f1f4cd4a85eb"
+  "checksum": "99decc64180a9c30"
 }
