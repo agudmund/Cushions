@@ -21,22 +21,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Canvas edge boundary",
-      "uuid": "3006e5078b1e4417b5f16a704434204b",
-      "x": 795.4541936566436,
-      "y": 585.7031437091933,
-      "width": 229.0625,
-      "height": 27.0,
-      "z_value": -9.932000000000038,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Canvas edge boundary",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "And no there is no v0.0.4\n\nThis isnt counting how many of them there are\n0.0.5 The Breath of Air Era it is it's name, not a number",
       "uuid": "8848c9ef726642bc84412e09674feee3",
       "x": -1121.6867469879517,
@@ -69,6 +53,38 @@
     {
       "node_id": 0,
       "node_type": "about",
+      "title": "Canvas edge boundary",
+      "uuid": "3006e5078b1e4417b5f16a704434204b",
+      "x": 795.4541936566436,
+      "y": 585.7031437091933,
+      "width": 229.0625,
+      "height": 27.0,
+      "z_value": -9.932000000000038,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Canvas edge boundary",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
+      "uuid": "b5d9399e12574865870219e04d2b9945",
+      "x": -513.253012048193,
+      "y": 116.86746987951847,
+      "width": 366.66131914843527,
+      "height": 113.80648985070829,
+      "z_value": -9.967000000000018,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
       "title": "Note",
       "uuid": "d8d5fa33ead74cb8b407a2ceee36e9e9",
       "x": -796.3878718336553,
@@ -81,22 +97,6 @@
       "label": "All Glory",
       "depth_front": true,
       "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
-      "uuid": "b5d9399e12574865870219e04d2b9945",
-      "x": -513.253012048193,
-      "y": 116.86746987951847,
-      "width": 391.0670514801002,
-      "height": 133.97845644196877,
-      "z_value": -9.967000000000018,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "There is also one named Two\nAgain, its not a descendant of One \nor something...\nIt's what it's named, Two",
-      "depth_front": false,
-      "node_tint": "#2a3a2f"
     },
     {
       "node_id": 0,
@@ -131,22 +131,6 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Relative pulse animation scales",
-      "uuid": "6884c7622d70481c8a8a29e73787d685",
-      "x": 796.0173791041498,
-      "y": 747.8487556983131,
-      "width": 338.0,
-      "height": 31.0,
-      "z_value": -9.916000000000047,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Relative pulse animation scales",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
       "title": "About node right click spellchecker",
       "uuid": "3ae06771540b4b15a1bf12a4a16f84c2",
       "x": 796.0173791041498,
@@ -163,16 +147,16 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "And yesterdays mysteries becoming tomorrows masteries",
-      "uuid": "28880bad03e04309aa248066941a5d43",
-      "x": -978.3856626506024,
-      "y": 305.7455195783133,
-      "width": 558.185602161375,
-      "height": 34.35891958679122,
-      "z_value": -9.958000000000023,
+      "title": "Relative pulse animation scales",
+      "uuid": "6884c7622d70481c8a8a29e73787d685",
+      "x": 796.0173791041498,
+      "y": 747.8487556983131,
+      "width": 338.0,
+      "height": 31.0,
+      "z_value": -9.916000000000047,
       "ports_visible": false,
       "shelf_visible": false,
-      "label": "And yesterdays mysteries becoming tomorrows masteries",
+      "label": "Relative pulse animation scales",
       "depth_front": false,
       "node_tint": ""
     },
@@ -211,6 +195,22 @@
     {
       "node_id": 0,
       "node_type": "about",
+      "title": "And yesterdays mysteries becoming tomorrows masteries",
+      "uuid": "28880bad03e04309aa248066941a5d43",
+      "x": -1284.4143016885225,
+      "y": 518.4094890792409,
+      "width": 558.185602161375,
+      "height": 34.35891958679122,
+      "z_value": -9.958000000000023,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "And yesterdays mysteries becoming tomorrows masteries",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
       "title": "Cushions harmed: 0",
       "uuid": "ae134ca6ec3f46c7a77630154b704443",
       "x": 183.1251887491889,
@@ -221,38 +221,6 @@
       "ports_visible": false,
       "shelf_visible": false,
       "label": "Cushions harmed: 0",
-      "depth_front": false,
-      "node_tint": ""
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Which became v0.0.2 while we fixed the typo in the version counter",
-      "uuid": "1387aaea288a42beb936598f1f297a90",
-      "x": -804.8192771084339,
-      "y": -759.0361445783132,
-      "width": 380.46940646728956,
-      "height": 80.66317627493981,
-      "z_value": -9.971000000000016,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Which became v0.0.2 while we fixed the typo in the version counter",
-      "depth_front": false,
-      "node_tint": "#2a3a2f"
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "Cushions",
-      "uuid": "dbdc6b57aa3d498cbb72853cb9422660",
-      "x": 42.71129789164067,
-      "y": -1027.386877828054,
-      "width": 102.35831608367687,
-      "height": 38.263383616255396,
-      "z_value": -9.989000000000006,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "Cushions",
       "depth_front": false,
       "node_tint": ""
     },
@@ -291,6 +259,38 @@
     {
       "node_id": 0,
       "node_type": "about",
+      "title": "Which became v0.0.2 while we fixed the typo in the version counter",
+      "uuid": "1387aaea288a42beb936598f1f297a90",
+      "x": -804.8192771084339,
+      "y": -759.0361445783132,
+      "width": 380.46940646728956,
+      "height": 80.66317627493981,
+      "z_value": -9.971000000000016,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Which became v0.0.2 while we fixed the typo in the version counter",
+      "depth_front": false,
+      "node_tint": "#2a3a2f"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Cushions",
+      "uuid": "dbdc6b57aa3d498cbb72853cb9422660",
+      "x": 42.71129789164067,
+      "y": -1027.386877828054,
+      "width": 102.35831608367687,
+      "height": 38.263383616255396,
+      "z_value": -9.989000000000006,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Cushions",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
       "title": "The Wni who fee proofreading accountant",
       "uuid": "b202e48b628245f7bac2ceb2d6af6bde",
       "x": 802.8737101262917,
@@ -321,32 +321,16 @@
     {
       "node_id": 0,
       "node_type": "warm",
-      "title": "Inner Peace",
+      "title": "Intricate - For Enjoying",
       "uuid": "78d18d1d1e7d4887a9d1f8549fdbfbf4",
-      "x": -1440.5814585137919,
-      "y": 407.116087504872,
+      "x": -1708.2268445198374,
+      "y": 610.4435900521003,
       "width": 665.723667633647,
       "height": 283.115361013124,
       "z_value": -9.956000000000024,
       "ports_visible": false,
       "shelf_visible": true,
-      "body_text": "0.1.0 - The Fluff Era\n0.0.2 - The Era where we fixed the typo in the version counter\n0.0.3 - The Interlinking Era\nThere is also one named Two, its not a descendant of One or something, it's its name \"Two\"\n0.0.5 - The Breath of Air Era\n0.0.4 - Is missing - is its actual name, not that it is missing, its named \"0.0.4 - Is Missing\", and came after 0.0.5\n0.1.0 - The Dawn of a new Era of Mankind\n0.2.0 - The Prestige Era\n0.3.0 - The Expressive Era\n0.5.0 - The Other Era, Not the untold one."
-    },
-    {
-      "node_id": 0,
-      "node_type": "about",
-      "title": "But many were aggressively fluffed",
-      "uuid": "42b5eb95260147c0af6106a65c93fb07",
-      "x": 272.6074980769978,
-      "y": -638.3086190917519,
-      "width": 366.85296263717476,
-      "height": 39.17915804183849,
-      "z_value": -9.985000000000008,
-      "ports_visible": false,
-      "shelf_visible": false,
-      "label": "But many were aggressively fluffed",
-      "depth_front": false,
-      "node_tint": ""
+      "body_text": "0.1.0 - The Fluff Era\n0.0.2 - The Era where we fixed the typo in the version counter\n0.0.3 - The Interlinking Era\nThere is also one named Two, its not a descendant of One or something, it's its name \"Two\"\n0.0.5 - The Breath of Air Era\n0.0.4 - Is missing - is its actual name, not that it is missing, its named \"0.0.4 - Is Missing\", and came after 0.0.5\n0.1.0 - The Dawn of a new Era of Mankind\n0.2.0 - The Prestige Era\n0.3.0 - The Expressive Era\n0.5.0 - The Other Era, Not the untold one.\n0.6.0 - The Housekeeping before paradise arrives Era"
     },
     {
       "node_id": 0,
@@ -399,16 +383,16 @@
     {
       "node_id": 0,
       "node_type": "about",
-      "title": "Claude app initial project",
-      "uuid": "279bd458b0794b949181159ca0359037",
-      "x": 798.4875649198342,
-      "y": 784.2839964796511,
-      "width": 288.0,
-      "height": 31.0,
-      "z_value": -9.915000000000047,
+      "title": "But many were aggressively fluffed",
+      "uuid": "42b5eb95260147c0af6106a65c93fb07",
+      "x": 272.6074980769978,
+      "y": -638.3086190917519,
+      "width": 366.85296263717476,
+      "height": 39.17915804183849,
+      "z_value": -9.985000000000008,
       "ports_visible": false,
       "shelf_visible": false,
-      "label": "Claude app initial project",
+      "label": "But many were aggressively fluffed",
       "depth_front": false,
       "node_tint": ""
     },
@@ -436,6 +420,22 @@
     {
       "node_id": 0,
       "node_type": "about",
+      "title": "Claude app initial project",
+      "uuid": "279bd458b0794b949181159ca0359037",
+      "x": 798.4875649198342,
+      "y": 784.2839964796511,
+      "width": 288.0,
+      "height": 31.0,
+      "z_value": -9.915000000000047,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Claude app initial project",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
       "title": "Audit why the Claude response nodes have editable fields",
       "uuid": "6ebe904b5c074ca4b2769db42623bff3",
       "x": 799.1051113737549,
@@ -454,10 +454,6 @@
     {
       "start_uuid": "1387aaea288a42beb936598f1f297a90",
       "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
-    },
-    {
-      "start_uuid": "ae134ca6ec3f46c7a77630154b704443",
-      "end_uuid": "42b5eb95260147c0af6106a65c93fb07"
     },
     {
       "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
@@ -480,24 +476,28 @@
       "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
     },
     {
-      "start_uuid": "0a932f6edce7408d844a00e6d474c8fd",
-      "end_uuid": "3b814701196e4890944ce42f2687af2b"
+      "start_uuid": "ae134ca6ec3f46c7a77630154b704443",
+      "end_uuid": "42b5eb95260147c0af6106a65c93fb07"
     },
     {
       "start_uuid": "3b814701196e4890944ce42f2687af2b",
       "end_uuid": "8848c9ef726642bc84412e09674feee3"
     },
     {
-      "start_uuid": "dbdc6b57aa3d498cbb72853cb9422660",
-      "end_uuid": "9bfd337720014cdaa112b1af1f57ea5f"
+      "start_uuid": "28880bad03e04309aa248066941a5d43",
+      "end_uuid": "78d18d1d1e7d4887a9d1f8549fdbfbf4"
     },
     {
       "start_uuid": "1387aaea288a42beb936598f1f297a90",
       "end_uuid": "0a932f6edce7408d844a00e6d474c8fd"
     },
     {
-      "start_uuid": "28880bad03e04309aa248066941a5d43",
-      "end_uuid": "78d18d1d1e7d4887a9d1f8549fdbfbf4"
+      "start_uuid": "dbdc6b57aa3d498cbb72853cb9422660",
+      "end_uuid": "9bfd337720014cdaa112b1af1f57ea5f"
+    },
+    {
+      "start_uuid": "0a932f6edce7408d844a00e6d474c8fd",
+      "end_uuid": "3b814701196e4890944ce42f2687af2b"
     },
     {
       "start_uuid": "9bfd337720014cdaa112b1af1f57ea5f",
@@ -505,13 +505,13 @@
     }
   ],
   "viewport": {
-    "camera_x": 129.0109050762003,
-    "camera_y": 418.30808615616525,
-    "camera_zoom": 0.2557923299624051
+    "camera_x": -722.5102457405676,
+    "camera_y": 181.7929005411751,
+    "camera_zoom": 0.6435894892028534
   },
   "ui_migrations": [
     "image_border_default_on_v1"
   ],
   "last_browse_dirs": {},
-  "checksum": "ebd6634320bb4bcf"
+  "checksum": "7d7f3f78ca605f1a"
 }
