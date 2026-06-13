@@ -1,0 +1,10 @@
+# -Cushions - requirements.in pip dependency set
+# -The last of the cushions package list fluffed itself up long before anyone knew what it would become, For Enjoying
+# -Built using a single shared braincell by Yours Truly and various Intelligences
+# No version pins; Python is the floor, pip resolves the rest.
+
+PySide6                 # Qt bindings
+requests                # HTTP
+
+# Sibling-source imports, resolved from neighbouring repos, not PyPI:
+#   WarmNode, cozy
