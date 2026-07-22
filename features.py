@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+-Cushions - features.py feature wishlist persistence
+-The last of the features was written down in plain json so no wish would be forgotten, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+
 # utils/features.py
 import os
 import json

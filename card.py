@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+-Cushions - card.py the Kanban card made soft
+-The last of the cards leaned back into the cushion and let its checklist wait until morning, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+
 import sys
 import json
 from PySide6.QtWidgets import (

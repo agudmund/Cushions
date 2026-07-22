@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+-Cushions - log_viewer_dialog.py the log reading room
+-The last of the log viewers scrolled to the bottom and found the day had gone well, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+
 # widgets/log_viewer_dialog.py
 import os
 

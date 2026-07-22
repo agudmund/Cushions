@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
-# Cushions - utils/trello_api.py
-# Proper cozy TrelloAPI utility class
-# Built using a single shared braincell by Yours Truly and Grok
+"""
+-Cushions - trello_api.py proper cozy TrelloAPI utility class
+-The last of the Trello couriers carried the cards to the cloud and back without dropping one, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+# (First stitched together with Grok, in the cozy era.)
 
 import requests
 from typing import Optional, Tuple

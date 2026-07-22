@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
-# Cushions - dialogs/settings_dialog.py
-# The cozy beautiful settings home
-# Built using a single shared braincell by Yours Truly and Grok
+"""
+-Cushions - extraWindow.py a spare cozy window
+-The last of the extra windows opened just in case a thought needed somewhere warm to sit, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+# (First stitched together with Grok, in the cozy era.)
 
 from pathlib import Path
 

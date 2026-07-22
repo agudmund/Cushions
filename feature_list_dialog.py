@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+-Cushions - feature_list_dialog.py the wishlist dialog
+-The last of the feature lists read itself aloud and found nothing missing but tomorrow, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+
 # widgets/feature_list_dialog.py
 from PySide6.QtWidgets import (
     QDialog,

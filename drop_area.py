@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+-Cushions - drop_area.py cozy drag-and-drop landing zone
+-The last of the drop areas held its arms open for whatever the cursor decided to let go of, For Enjoying
+-Built using a single shared braincell by Yours Truly and various Intelligences
+"""
+
 # widgets/drop_area.py
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel
 from PySide6.QtCore import Qt
