@@ -538,6 +538,180 @@
       "ports_visible": false,
       "shelf_visible": true,
       "body_text": "A man on a donkey in 1635\nThe scent of a flower on a Thursday\nThe sound a candle makes\nA spoon dropped in a cathedral\nFirst breath after swimming underwater\nThe third exhale of a long story\nA child's forgotten birthday wish\nMoonrise viewed from a kitchen window\nThe taste of tap water at 3am\nA door closing behind someone you love\nThe first hour of a snowstorm\nA grandmother's lullaby half-remembered\nCoffee steam on a bathroom mirror\nThe weight of an unopened letter\nFootsteps in an empty hallway\nA postman pausing before knocking\nThe smell of rain on hot pavement\nA letter that arrived eleven days late\nThe last verse of a song nobody sings anymore\nA dog dreaming\nSunday afternoon in a library with no one in it\nA forgotten pocket in a winter coat\nThe quiet between two fireworks\nTea steeping for far too long\nAn old map folded wrong\nThe first cricket of summer\nA stranger's laugh overheard on a train\nA child counting stars out loud\nThe click of a film camera in the next room\nA train whistle at 4am\nThe last page of a book you didn't want to end\nA kettle about to boil\nRain hitting a window at night\nA cat watching traffic from a fourth-floor sill\nThe breath between two lines of poetry\nA balloon caught in a winter tree\nA telephone ringing in a film\nA candle three seconds after blowing out\nThe pause before a joke lands\nA passport lost and then found\nSnow melting on a hat you forgot you were wearing\nRust on a bicycle chain in April\nThe moment before applause\nA pigeon landing on a statue's head\nThe smell of a library book from 1974\nA broken promise, nonetheless kept\nA forgotten umbrella at a wedding\nThe last warm day of September\nA hand waving goodbye through a train window\nA bird flying into a room and out again\nThe taste of your own name said by a stranger\nA childhood pet's name\nThe sound a memory makes when it almost surfaces\nCoffee gone cold on a desk\nA cake baking in an empty house\nAn email sent to exactly the wrong person\nFootprints in wet sand being erased\nA mother calling you home for dinner\nThe shadow of a moth on a lampshade\nA coin spinning on a wooden table\nA subway arriving empty at midnight\nThe warmth of a laptop on your legs\nA doorway that only exists in a dream\nThe echo of a church bell at dusk\nA neighbor practicing piano badly\nAn aunt's kitchen in the summer of 1992\nWind pushing a screen door gently\nA recipe written in pencil on an index card\nA photograph deleted accidentally\nThe weight of words you didn't say\nA puddle reflecting a cloud\nA conversation with your eighteen-year-old self\nThe last letter of a foreign alphabet\nA friend who moved away and stayed away\nDust dancing in a beam of sunlight\nThe kind of silence only cats know\nA freshly-made hotel bed\nThe gap between a breath and a sigh\nThe hum of a refrigerator at night\nA wedding ring left on a bedside table\nA library card from 1987\nA child's drawing held up by a magnet\nA chair that remembers the shape of someone\nThe breeze from a ceiling fan in August\nA grandfather clock ticking in a dark hallway\nThe inside of a snowglobe mid-shake\nAn unpaid utility bill\nThe first frost on grass\nA song stuck in someone else's head\nA book you keep meaning to read\nThe smell of sunscreen on a cold day\nA bowl of cherries in midsummer\nA taxi passing through rain without stopping\nThe sound of a zipper in a quiet room\nA cardboard box with no return address\nAn umbrella on a coat rack in June\nThe taste of homesickness\nA paper crane on a windowsill\nA melody heard only in dreams\nThe moment you realize a page is ending"
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Interactive translucency that lets us operate other apps through the canvas",
+      "uuid": "de1cba56565e49829b76d1763244710f",
+      "x": 5037.246796588244,
+      "y": -528.6022863019064,
+      "width": 780.4089160241826,
+      "height": 34.78637653932126,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Interactive translucency that lets us operate other apps through the canvas",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "That's not a node editor.  That is a new medium",
+      "uuid": "6631c400b3384156a49e0a27a28bafaa",
+      "x": 5405.8910351986215,
+      "y": -289.04909481254464,
+      "width": 501.0545528166878,
+      "height": 30.601315281210645,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "That's not a node editor.  That is a new medium",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "And we literally talk to Claude from inside the graph",
+      "uuid": "49017b9e0fcb4dfab6ab807e19a971b0",
+      "x": 5290.216950680891,
+      "y": -771.3504126023873,
+      "width": 559.553726485131,
+      "height": 31.294783005089187,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "And we literally talk to Claude from inside the graph",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "warm",
+      "title": "Beautiful",
+      "uuid": "3fca41db85694f299bd5ec088ed4b5ac",
+      "x": 5971.111774019042,
+      "y": -394.8230675092117,
+      "width": 296.78578813808247,
+      "height": 121.91368482620734,
+      "z_value": -10.0,
+      "ports_visible": false,
+      "shelf_visible": true,
+      "body_text": "And then it all just kinda fell into place, weeks of nit and grit just so that I could sit here and write in gigantic immersive letters that I love you "
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "A Frameless infinate canvas with nodes that breathe and whisper to each other",
+      "uuid": "275cc4ad2feb45afa2132d0ca0f54931",
+      "x": 5115.511386504117,
+      "y": -973.3504126023872,
+      "width": 803.45126000055,
+      "height": 31.11660621940112,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "A Frameless infinate canvas with nodes that breathe and whisper to each other",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Theme that hotloads between a family of apps",
+      "uuid": "60d357712dec4c7895eccbe82a33f038",
+      "x": 5119.282103687128,
+      "y": -842.4287435070502,
+      "width": 465.69657606202486,
+      "height": 29.263915350843547,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Theme that hotloads between a family of apps",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "OS titlebars that curl up into themselves without that being a Windows feature",
+      "uuid": "e633e8475c504374844cac6e5936f039",
+      "x": 5187.577711579971,
+      "y": -455.45275516466825,
+      "width": 809.1639650078382,
+      "height": 33.596339647876455,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "OS titlebars that curl up into themselves without that being a Windows feature",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Wires that swoosh with rubbery physics",
+      "uuid": "f69c98b4104b41a08aaeb523d51a360f",
+      "x": 5491.054578974565,
+      "y": -902.9347464214547,
+      "width": 415.01289356738755,
+      "height": 31.60833555150606,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Wires that swoosh with rubbery physics",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "File operation image recognition so its sortable by content rather than filename",
+      "uuid": "162d8ceafa704aa6be5f77faadfe07b7",
+      "x": 4877.829833984961,
+      "y": -358.3080991841514,
+      "width": 834.7599677637178,
+      "height": 30.249785194808737,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "File operation image recognition so its sortable by content rather than filename",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "Floats inside of VR with butterflies flying across the nodes",
+      "uuid": "efc2b9ae03174f4a9cabec42033c6d0e",
+      "x": 5350.33581903493,
+      "y": -613.0713215690865,
+      "width": 625.2825556284404,
+      "height": 28.56152363554748,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "Floats inside of VR with butterflies flying across the nodes",
+      "depth_front": false,
+      "node_tint": ""
+    },
+    {
+      "node_id": 0,
+      "node_type": "about",
+      "title": "We watch response nodes spiral outward to find their own space",
+      "uuid": "13a13b47bca74c6194a76324fac7149e",
+      "x": 5133.407143620241,
+      "y": -701.8444096879828,
+      "width": 645.8309054511752,
+      "height": 30.765007286011297,
+      "z_value": 0.0,
+      "ports_visible": false,
+      "shelf_visible": false,
+      "label": "We watch response nodes spiral outward to find their own space",
+      "depth_front": false,
+      "node_tint": ""
     }
   ],
   "connections": [
@@ -632,16 +806,56 @@
     {
       "start_uuid": "8ba707ea64084be29e0b1b69bf6d0844",
       "end_uuid": "537fbc5895c34ce7977bf2336e08300f"
+    },
+    {
+      "start_uuid": "de1cba56565e49829b76d1763244710f",
+      "end_uuid": "e633e8475c504374844cac6e5936f039"
+    },
+    {
+      "start_uuid": "efc2b9ae03174f4a9cabec42033c6d0e",
+      "end_uuid": "de1cba56565e49829b76d1763244710f"
+    },
+    {
+      "start_uuid": "6631c400b3384156a49e0a27a28bafaa",
+      "end_uuid": "3fca41db85694f299bd5ec088ed4b5ac"
+    },
+    {
+      "start_uuid": "162d8ceafa704aa6be5f77faadfe07b7",
+      "end_uuid": "6631c400b3384156a49e0a27a28bafaa"
+    },
+    {
+      "start_uuid": "60d357712dec4c7895eccbe82a33f038",
+      "end_uuid": "49017b9e0fcb4dfab6ab807e19a971b0"
+    },
+    {
+      "start_uuid": "49017b9e0fcb4dfab6ab807e19a971b0",
+      "end_uuid": "13a13b47bca74c6194a76324fac7149e"
+    },
+    {
+      "start_uuid": "275cc4ad2feb45afa2132d0ca0f54931",
+      "end_uuid": "f69c98b4104b41a08aaeb523d51a360f"
+    },
+    {
+      "start_uuid": "f69c98b4104b41a08aaeb523d51a360f",
+      "end_uuid": "60d357712dec4c7895eccbe82a33f038"
+    },
+    {
+      "start_uuid": "e633e8475c504374844cac6e5936f039",
+      "end_uuid": "162d8ceafa704aa6be5f77faadfe07b7"
+    },
+    {
+      "start_uuid": "13a13b47bca74c6194a76324fac7149e",
+      "end_uuid": "efc2b9ae03174f4a9cabec42033c6d0e"
     }
   ],
   "viewport": {
-    "camera_x": 2203.588469925498,
-    "camera_y": -1090.182020459112,
-    "camera_zoom": 0.7319878561783065
+    "camera_x": 5037.955091459092,
+    "camera_y": -669.7742581987995,
+    "camera_zoom": 0.39595430363835676
   },
   "ui_migrations": [
     "image_border_default_on_v1"
   ],
   "last_browse_dirs": {},
-  "checksum": "13aa8f2313890a69"
+  "checksum": "20f6b424f4fe44d1"
 }
